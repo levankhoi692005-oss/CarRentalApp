@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:layout_margin="8dp"
+
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <!-- ====================== -->
+        <!-- IMAGE LEFT -->
+        <!-- ====================== -->
+
+        <LinearLayout
+            android:layout_width="110dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgxe1"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/car"/>
+
+            <ImageView
+                android:id="@+id/imgxe2"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/car"/>
+        </LinearLayout>
+
+        <!-- ====================== -->
+        <!-- INFO RIGHT -->
+        <!-- ====================== -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="6dp">
+
+            <!-- TÊN XE -->
+
+            <TextView
+                android:id="@+id/txtTenXe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="4dp"
+                android:text="Toyota Vios"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <!-- GIÁ -->
+
+            <TextView
+                android:id="@+id/txtGia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="4dp"
+                android:text="500.000đ/ngày"
+                android:textColor="#4CAF50"
+                android:textSize="16sp"/>
+
+            <!-- BIỂN SỐ -->
+
+            <TextView
+                android:id="@+id/txtBienSo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#EEEEEE"
+                android:padding="4dp"
+                android:text="30A-12345"
+                android:textColor="#555555"
+                android:textSize="15sp"/>
+
+            <!-- MÔ TẢ -->
+
+            <TextView
+                android:id="@+id/txtThongTin"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="#EEEEEE"
+                android:gravity="top"
+                android:padding="4dp"
+                android:text="Xe tiết kiệm xăng, phù hợp đi gia đình"
+                android:textColor="#777777"
+                android:textSize="14sp"/>
+
+            <!-- BUTTON -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnXemThem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#2196F3"
+                    android:text="Xem thêm"
+                    android:textColor="#FFFFFF"/>
+
+                <Button
+                    android:id="@+id/btnThue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:backgroundTint="#4CAF50"
+                    android:text="Thuê"
+                    android:textColor="#FFFFFF"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- 🔙 Quay lại -->
+
+        <!-- 📌 THÔNG TIN XE -->
+
+        <!-- Ảnh xe -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/left" />
+
+        <ImageView
+            android:id="@+id/imgXe"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Tên xe -->
+        <TextView
+            android:id="@+id/txtTenXe"
+            android:text="Tên xe"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Biển số -->
+        <TextView
+            android:id="@+id/txtBienSo"
+            android:text="Biển số"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Giá -->
+        <TextView
+            android:id="@+id/txtGia"
+            android:text="Giá: 0 VND"
+            android:background="#EEEEEE"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 📌 THÔNG TIN KHÁCH -->
+        <TextView
+            android:text="Thông tin khách hàng"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <!-- Họ tên -->
+        <EditText
+            android:id="@+id/edtHoTen"
+            android:hint="Họ tên"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- SĐT -->
+        <EditText
+            android:id="@+id/edtSDT"
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Ngày đặt -->
+        <TextView
+            android:id="@+id/txtNgayDat"
+            android:text="Ngày đặt"
+            android:background="#EEEEEE"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Ngày lấy -->
+        <EditText
+            android:id="@+id/edtNgayLay"
+            android:hint="Ngày lấy (yyyy-mm-dd)"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Số ngày thuê -->
+        <EditText
+            android:id="@+id/edtSoNgay"
+            android:hint="5"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Tổng tiền -->
+        <TextView
+            android:id="@+id/txtTongTien"
+            android:text="Tổng tiền: 0 VND"
+            android:background="#EEEEEE"
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Thanh toán -->
+        <TextView
+            android:text="Hình thức thanh toán"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RadioGroup
+            android:id="@+id/radioThanhToan"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radioChuyenKhoan"
+                android:text="Chuyển khoản"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/radioTienMat"
+                android:text="Tiền mặt"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RadioButton
+                android:id="@+id/radioCaHai"
+                android:text="Cả hai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+
+        <!-- Ghi chú -->
+        <EditText
+            android:id="@+id/edtGhiChu"
+            android:hint="Ghi chú"
+            android:minLines="2"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 🔥 Button thuê -->
+        <Button
+            android:id="@+id/btnThue"
+            android:text="Xác nhận thuê xe"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</ScrollView>
