@@ -1,131 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="#F4F7FE"
+    android:fitsSystemWindows="true">
 
-    <!-- 🔝 HEADER -->
+    <!-- HEADER -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
         android:orientation="horizontal"
-        android:layout_marginTop="20sp"
         android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="18dp"
         android:background="#FFFFFF"
-        android:elevation="4dp">
+        android:elevation="6dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/btnBack"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@drawable/left"
-            app:tint="#333"/>
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_circle"
+            app:tint="#111111"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Đơn thuê"
-            android:textColor="#212121"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:text="Đơn thuê xe"
+            android:textAlignment="center"
+            android:textColor="#111111"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
     </LinearLayout>
 
-    <!-- 🔥 NỘI DUNG CÓ CUỘN -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- TITLE -->
+    <!-- CARD -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRecycler"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="6dp"
+        android:backgroundTint="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintBottom_toTopOf="@id/bottomMenu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 📦 CARD LIST -->
-        <androidx.cardview.widget.CardView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
+            android:layout_height="match_parent">
 
+            <!-- RECYCLER -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerOrder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false"
-                android:padding="8dp" />
+                android:paddingBottom="50dp"
+                android:clipToPadding="false"
+                tools:listitem=""/>
 
-        </androidx.cardview.widget.CardView>
+            <!-- LOADING -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
-    </LinearLayout>
+            <!-- EMPTY -->
+            <LinearLayout
+                android:id="@+id/layoutEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
 
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/cart"
+                    app:tint="#D0D7E2"/>
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa có đơn thuê nào"
+                    android:textColor="#999999"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="12dp"/>
 
-    <!-- 🔻 BOTTOM MENU -->
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- BOTTOM NAVIGATION -->
     <LinearLayout
         android:id="@+id/bottomMenu"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="#FFFFFF"
-        android:elevation="10dp">
+        android:elevation="18dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <!-- HOME -->
         <LinearLayout
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:id="@+id/layoutHome"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/btnHome1"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/home"
-                app:tint="#999"/>
+                app:tint="#9E9E9E"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#9E9E9E"
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <!-- CART -->
         <LinearLayout
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:id="@+id/layoutCart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/btnCart1"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/cart"
-                app:tint="#2196F3"/>
+                app:tint="#1976D2"/>
 
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cart"
+                android:textColor="#1976D2"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
         </LinearLayout>
 
         <!-- MENU -->
         <LinearLayout
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:id="@+id/layoutMenu"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/btnMenu1"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/menu"
-                app:tint="#999"/>
+                app:tint="#9E9E9E"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Menu"
+                android:textColor="#9E9E9E"
+                android:textSize="12sp"/>
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

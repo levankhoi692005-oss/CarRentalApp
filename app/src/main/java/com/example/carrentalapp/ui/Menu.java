@@ -1,6 +1,12 @@
 package com.example.carrentalapp.ui;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,18 +15,102 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.carrentalapp.R;
+import com.example.carrentalapp.authentication.Login;
 
 public class Menu extends AppCompatActivity {
 
+
+    TextView hoten,id,kiemtra,capnhap,doimk,chinhsach,
+            quatang,dangxuat;
+    ImageView home,cart,menu,back;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        hoten = findViewById(R.id.txtten);
+        id = findViewById(R.id.txtid);
+
+        kiemtra = findViewById(R.id.txtkiemtra);
+        capnhap = findViewById(R.id.txtcapnhap);
+        doimk = findViewById(R.id.txtdoimk);
+        chinhsach = findViewById(R.id.txtchinhsach);
+        quatang = findViewById(R.id.txtquatang);
+        dangxuat = findViewById(R.id.txtdangxuat);
+
+        home = findViewById(R.id.btnHome1);
+        cart = findViewById(R.id.btnCart1);
+        menu = findViewById(R.id.btnMenu1);
+        back = findViewById(R.id.img6);
+
+
+        SharedPreferences sharedPreferences =
+                getSharedPreferences("USER_FILE",
+                        MODE_PRIVATE);
+
+        int user_id = sharedPreferences.getInt("user_id",-1);
+        String user_name = sharedPreferences.getString("username","");
+
+
+
+        hoten.setText("  "+user_name);
+        id.setText("  ID: "+user_id);
+
+        doimk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(Menu.this,ChangePassword.class);
+                intent.putExtra("id",user_id);
+                startActivity(intent);
+
+            }
         });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this,Home.class);
+                startActivity(intent);
+            }
+        });
+
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this,Cart.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences1 = getSharedPreferences("USER_FILE",MODE_PRIVATE);
+                sharedPreferences1.edit().clear().apply();
+
+
+
+                Intent intent = new Intent(Menu.this, Login.class);
+                startActivity(intent);
+            }
+        });
+
+        dangxuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences1 = getSharedPreferences("USER_FILE",MODE_PRIVATE);
+                sharedPreferences1.edit().clear().apply();
+                Intent intent = new Intent(Menu.this, Login.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 }

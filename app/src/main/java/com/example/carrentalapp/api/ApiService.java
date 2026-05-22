@@ -1,5 +1,7 @@
 package com.example.carrentalapp.api;
 
+import org.json.JSONObject;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -113,7 +115,7 @@ public class ApiService {
     }
 
     // ==============================
-    // UPDATE VEHICLE
+    // UPDATE VEHICLE hhh
     // ==============================
 
     public static void updateVehicle(
@@ -172,5 +174,196 @@ public class ApiService {
                 .enqueue(callback);
 
     }
+
+
+    // POST ORDER //
+
+    public static void order(
+            String bienso,
+
+            String hoten,
+
+            String sodienthoai,
+
+            String ngaydat,
+
+            String ngaylay,
+
+            int songaythue,
+
+            int dongia,
+
+            int thanhtien,
+
+            String thanhtoan,
+
+            String ghichu,
+
+            int user_id,
+
+            String tenxe,
+
+            String diachikh,
+
+            String diachinhan,
+
+            Callback callback
+    )
+    {
+        JSONObject object = new JSONObject();
+
+        try {
+
+            object.put("bienso", bienso);
+
+            object.put("hoten", hoten);
+
+            object.put("sodienthoai", sodienthoai);
+
+            object.put("ngaydat", ngaydat);
+
+            object.put("ngaylay", ngaylay);
+
+            object.put("songaythue", songaythue);
+
+            object.put("dongia", dongia);
+
+            object.put("thanhtien", thanhtien);
+
+            object.put("thanhtoan", thanhtoan);
+
+            object.put("tinhtrang", "Chờ xác nhận");
+
+            object.put("ghichu", ghichu);
+
+            object.put("user_id", user_id);
+
+            object.put("tenxe", tenxe);
+
+            object.put("diachikh", diachikh);
+
+            object.put("diachinhan", diachinhan);
+
+        }
+        catch (Exception e){
+
+            e.printStackTrace();
+
+        }
+        RequestBody body =
+                RequestBody.create(
+                        object.toString(),
+                        MediaType.parse("application/json"
+                        )
+                );
+        Request request =
+                new Request.Builder()
+                        .url(BASE_URL+"datxe")
+                        .addHeader("Content-Type",
+                                "application/json")
+                        .post(body)
+                        .build();
+
+                client.newCall(request)
+                        .enqueue(callback);
+    }
+
+
+
+    // ==============================
+// GET ORDERS
+// ==============================
+
+    public static void getOrders(
+            Callback callback
+    ){
+
+        Request request =
+                new Request.Builder()
+                        .url(BASE_URL + "orders")
+                        .build();
+
+        client.newCall(request)
+                .enqueue(callback);
+
+    }
+
+
+
+    public  static void getOrdersByUserId(
+            int user_id,
+            Callback calllbcak
+    )
+    {
+        Request request=
+                new Request.Builder().url(
+                        BASE_URL
+                        + "datxe/"
+                        + user_id
+                ).build();
+        client.newCall(request).enqueue(calllbcak);
+
+
+
+    }
+    // CANCEL ORDER
+
+    public  static void cancelOrder(
+            int id,
+            Callback callback
+    )
+    {
+        Request request = new Request.Builder().url(
+                BASE_URL
+                        + "cancelorder/"
+                        + id
+        ).put(
+                RequestBody.create(
+                        "",
+                        null
+                )
+        ).build();
+        client.newCall(request).enqueue(callback);
+    }
+
+
+    // lay mk va doi mk
+
+
+    public static void changepassword(
+            int user_id,
+            String old_password,
+            String new_password,
+            Callback callback
+    )
+    {
+            JSONObject jsonObject = new JSONObject();
+            try{
+                jsonObject.put("user_id",user_id);
+                jsonObject.put("old_password",old_password);
+                jsonObject.put("new_password",new_password);
+
+            }
+
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        RequestBody body = RequestBody.create(
+          jsonObject.toString(),
+          MediaType.parse("application/json")
+        );
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+"changepassword")
+                .put(body)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+
+
+    }
+
 
 }

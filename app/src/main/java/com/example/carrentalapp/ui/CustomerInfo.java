@@ -3,6 +3,7 @@ package com.example.carrentalapp.ui;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,13 +16,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.carrentalapp.R;
+import com.example.carrentalapp.api.ApiService;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -41,13 +45,18 @@ public class CustomerInfo extends AppCompatActivity {
     TextView txtTenXe,
             txtBienSo,
             txtGia,
-            txtNgayDat,
-            txtTongTien;
+            txtTongTien,
+            txtNgayDangKy,
+            txtGioDangKy;
 
     EditText edtHoTen,
             edtSDT,
             edtNgayLay,
             edtSoNgay,
+
+            edtdiachikh,
+
+            edtdiachinhan,
             edtGhiChu;
 
     RadioGroup radioThanhToan;
@@ -57,9 +66,8 @@ public class CustomerInfo extends AppCompatActivity {
     OkHttpClient client =
             new OkHttpClient();
 
-    // 🔥 IP WIFI MÁY
     String BASE_URL =
-            "http://192.168.0.102:3000/";
+            "https://jonnie-unpoetic-coldly.ngrok-free.dev/";
 
     int gia = 0;
 
@@ -67,7 +75,12 @@ public class CustomerInfo extends AppCompatActivity {
 
     int thanhtien = 0;
 
+    int user_id = -1;
+
+    String tenxe="";
     String ngaydat = "";
+
+    String giodangky = "";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -80,11 +93,14 @@ public class CustomerInfo extends AppCompatActivity {
         setContentView(R.layout.activity_customer_info);
 
         // ==========================
-        // FINDVIEWBYID
+        // FIND VIEW
         // ==========================
 
         imgXe =
                 findViewById(R.id.imgXe);
+
+        btnBack =
+                findViewById(R.id.btnBack);
 
         txtTenXe =
                 findViewById(R.id.txtTenXe);
@@ -95,11 +111,14 @@ public class CustomerInfo extends AppCompatActivity {
         txtGia =
                 findViewById(R.id.txtGia);
 
-        txtNgayDat =
-                findViewById(R.id.txtNgayDat);
-
         txtTongTien =
                 findViewById(R.id.txtTongTien);
+
+        txtNgayDangKy =
+                findViewById(R.id.txtNgayDangKy);
+
+        txtGioDangKy =
+                findViewById(R.id.txtGioDangKy);
 
         edtHoTen =
                 findViewById(R.id.edtHoTen);
@@ -113,6 +132,12 @@ public class CustomerInfo extends AppCompatActivity {
         edtSoNgay =
                 findViewById(R.id.edtSoNgay);
 
+        edtdiachinhan =
+                findViewById(R.id.edtdiachinhan);
+
+        edtdiachikh =
+                findViewById(R.id.edtdiachikh);
+
         edtGhiChu =
                 findViewById(R.id.edtGhiChu);
 
@@ -122,8 +147,21 @@ public class CustomerInfo extends AppCompatActivity {
         btnThue =
                 findViewById(R.id.btnThue);
 
-        btnBack =
-                findViewById(R.id.btnBack);
+        // ==========================
+        // GET USER ID
+        // ==========================
+
+        SharedPreferences preferences =
+                getSharedPreferences(
+                        "USER_FILE",
+                        MODE_PRIVATE
+                );
+
+        user_id =
+                preferences.getInt(
+                        "user_id",
+                        -1
+                );
 
         // ==========================
         // GET INTENT
@@ -135,55 +173,64 @@ public class CustomerInfo extends AppCompatActivity {
         String anhxe =
                 intent.getStringExtra("anhxe");
 
-        String tenxe =
+         tenxe =
                 intent.getStringExtra("tenxe");
 
         String bienso =
                 intent.getStringExtra("bienso");
 
         gia =
-                intent.getIntExtra("gia",0);
+                intent.getIntExtra(
+                        "gia",
+                        0
+                );
 
         // ==========================
         // HIỂN THỊ XE
         // ==========================
 
         txtTenXe.setText(
-                "Tên xe: " + tenxe
+                tenxe
         );
 
         txtBienSo.setText(
-                "Biển số: " + bienso
+                bienso
         );
 
         txtGia.setText(
-                "Giá: " + gia + " VND"
+                gia + " VND / ngày"
         );
 
-        // 🔥 CLOUDINARY
         Glide.with(this)
                 .load(anhxe)
                 .into(imgXe);
 
         // ==========================
-        // NGÀY HÔM NAY
+        // NGÀY GIỜ HIỆN TẠI
         // ==========================
 
-        java.util.Calendar calendar =
-                java.util.Calendar.getInstance();
-
-        SimpleDateFormat sdf =
+        SimpleDateFormat sdfNgay =
                 new SimpleDateFormat(
-                        "dd/MM/yyyy",
+                        "yyyy-MM-dd",
+                        Locale.getDefault()
+                );
+
+        SimpleDateFormat sdfGio =
+                new SimpleDateFormat(
+                        "HH:mm:ss",
                         Locale.getDefault()
                 );
 
         ngaydat =
-                sdf.format(new Date());
+                sdfNgay.format(new Date());
 
-        txtNgayDat.setText(
-                "Ngày đặt: " + ngaydat
+        giodangky =
+                sdfGio.format(new Date());
+
+        txtNgayDangKy.setText(
+                ngaydat
         );
+
 
         // ==========================
         // TÍNH TIỀN
@@ -229,10 +276,16 @@ public class CustomerInfo extends AppCompatActivity {
 
                             txtTongTien.setText(
 
-                                    "Tổng tiền: "
-                                            + thanhtien
+                                    thanhtien
                                             + " VND"
 
+                            );
+
+                        }
+                        else{
+
+                            txtTongTien.setText(
+                                    "0 VND"
                             );
 
                         }
@@ -249,6 +302,9 @@ public class CustomerInfo extends AppCompatActivity {
 
         edtNgayLay.setOnClickListener(v -> {
 
+            java.util.Calendar calendar =
+                    java.util.Calendar.getInstance();
+
             DatePickerDialog dp =
                     new DatePickerDialog(
 
@@ -262,17 +318,19 @@ public class CustomerInfo extends AppCompatActivity {
 
                                                 Locale.getDefault(),
 
-                                                "%02d/%02d/%04d",
+                                                "%04d-%02d-%02d",
 
-                                                day,
+                                                year,
 
                                                 month + 1,
 
-                                                year
+                                                day
 
                                         );
 
-                                edtNgayLay.setText(ngay);
+                                edtNgayLay.setText(
+                                        ngay
+                                );
 
                             },
 
@@ -295,7 +353,7 @@ public class CustomerInfo extends AppCompatActivity {
         });
 
         // ==========================
-        // THUÊ XE
+        // BUTTON THUÊ
         // ==========================
 
         btnThue.setOnClickListener(v -> {
@@ -320,6 +378,16 @@ public class CustomerInfo extends AppCompatActivity {
                             .toString()
                             .trim();
 
+            String diachikh =
+                    edtdiachikh.getText()
+                            .toString()
+                            .trim();
+
+            String diachinhan =
+                    edtdiachinhan.getText()
+                            .toString()
+                            .trim();
+
             // ==========================
             // CHECK EMPTY
             // ==========================
@@ -335,7 +403,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                         this,
 
-                        "Nhập đầy đủ",
+                        "Nhập đầy đủ thông tin",
 
                         Toast.LENGTH_SHORT
 
@@ -346,60 +414,7 @@ public class CustomerInfo extends AppCompatActivity {
             }
 
             // ==========================
-            // CHECK DATE
-            // ==========================
-
-            try {
-
-                SimpleDateFormat check =
-                        new SimpleDateFormat(
-                                "dd/MM/yyyy",
-                                Locale.getDefault()
-                        );
-
-                check.setLenient(false);
-
-                Date dateNgayDat =
-                        check.parse(ngaydat);
-
-                Date dateNgayLay =
-                        check.parse(ngaylay);
-
-                if(dateNgayLay.before(dateNgayDat)){
-
-                    Toast.makeText(
-
-                            this,
-
-                            "Ngày lấy phải >= ngày đặt",
-
-                            Toast.LENGTH_SHORT
-
-                    ).show();
-
-                    return;
-
-                }
-
-            }
-            catch (Exception e){
-
-                Toast.makeText(
-
-                        this,
-
-                        "Ngày không hợp lệ",
-
-                        Toast.LENGTH_SHORT
-
-                ).show();
-
-                return;
-
-            }
-
-            // ==========================
-            // THANH TOÁN
+            // CHECK THANH TOÁN
             // ==========================
 
             int selectedId =
@@ -412,7 +427,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                         this,
 
-                        "Chọn thanh toán",
+                        "Chọn phương thức thanh toán",
 
                         Toast.LENGTH_SHORT
 
@@ -426,13 +441,17 @@ public class CustomerInfo extends AppCompatActivity {
                     findViewById(selectedId);
 
             String thanhtoan =
-                    radio.getText().toString();
+                    radio.getText()
+                            .toString();
+
+
 
             // ==========================
             // GỬI API
             // ==========================
 
-            datXe(
+
+            ApiService.order(
 
                     bienso,
 
@@ -452,7 +471,82 @@ public class CustomerInfo extends AppCompatActivity {
 
                     thanhtoan,
 
-                    ghichu
+                    ghichu,
+
+                    user_id,
+
+                    tenxe,
+
+                    diachikh,
+
+                    diachinhan,
+
+                    new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                            runOnUiThread(()->
+                                    Toast.makeText(CustomerInfo.this,
+                                            "Khong the ket noi server",
+                                            Toast.LENGTH_SHORT).show());
+                        }
+
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                            String result =
+                                    response.body().string();
+                            runOnUiThread(()->{
+                                try {
+
+                                    JSONObject object =
+                                            new JSONObject(result);
+
+                                    boolean success =
+                                            object.getBoolean("success");
+
+                                    if(success){
+
+                                        String madon =
+                                                object.getString("madon");
+
+                                        Toast.makeText(
+
+                                                CustomerInfo.this,
+
+                                                "Thuê xe thành công\nMã đơn: "
+                                                        + madon,
+
+                                                Toast.LENGTH_LONG
+
+                                        ).show();
+
+                                        finish();
+
+                                    }
+                                    else{
+
+                                        Toast.makeText(
+
+                                                CustomerInfo.this,
+
+                                                "Đặt xe thất bại",
+
+                                                Toast.LENGTH_SHORT
+
+                                        ).show();
+
+                                    }
+
+                                }
+                                catch (Exception e){
+
+                                    e.printStackTrace();
+
+                                }
+                            });
+                        }
+                    }
 
             );
 
@@ -464,157 +558,14 @@ public class CustomerInfo extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> {
 
-            startActivity(
-
-                    new Intent(
-                            CustomerInfo.this,
-                            Home.class
-                    )
-
-            );
+            finish();
 
         });
 
     }
 
-    // =================================
-    // ĐẶT XE API
-    // =================================
 
-    private void datXe(
 
-            String bienso,
 
-            String hoten,
-
-            String sdt,
-
-            String ngaydat,
-
-            String ngaylay,
-
-            int songaythue,
-
-            int dongia,
-
-            int thanhtien,
-
-            String thanhtoan,
-
-            String ghichu
-
-    ){
-
-        try {
-
-            JSONObject json =
-                    new JSONObject();
-
-            json.put("bienso", bienso);
-
-            json.put("hoten", hoten);
-
-            json.put("sodienthoai", sdt);
-
-            json.put("ngaydat", ngaydat);
-
-            json.put("ngaylay", ngaylay);
-
-            json.put("songaythue", songaythue);
-
-            json.put("dongia", dongia);
-
-            json.put("thanhtien", thanhtien);
-
-            json.put("thanhtoan", thanhtoan);
-
-            json.put("tinhtrang", "Chưa phê duyệt");
-
-            json.put("ghichu", ghichu);
-
-            RequestBody body =
-
-                    RequestBody.create(
-
-                            json.toString(),
-
-                            MediaType.parse(
-                                    "application/json"
-                            )
-
-                    );
-
-            Request request =
-
-                    new Request.Builder()
-
-                            .url(BASE_URL + "datxe")
-
-                            .post(body)
-
-                            .build();
-
-            client.newCall(request)
-                    .enqueue(new Callback() {
-
-                        @Override
-                        public void onFailure(
-                                Call call,
-                                java.io.IOException e
-                        ) {
-
-                            runOnUiThread(() ->
-
-                                    Toast.makeText(
-
-                                            CustomerInfo.this,
-
-                                            "Lỗi server",
-
-                                            Toast.LENGTH_SHORT
-
-                                    ).show()
-
-                            );
-
-                        }
-
-                        @Override
-                        public void onResponse(
-                                Call call,
-                                Response response
-                        ) throws java.io.IOException {
-
-                            String result =
-                                    response.body().string();
-
-                            runOnUiThread(() -> {
-
-                                Toast.makeText(
-
-                                        CustomerInfo.this,
-
-                                        "Thuê xe thành công",
-
-                                        Toast.LENGTH_SHORT
-
-                                ).show();
-
-                                finish();
-
-                            });
-
-                        }
-
-                    });
-
-        }
-        catch (Exception e){
-
-            e.printStackTrace();
-
-        }
-
-    }
 
 }

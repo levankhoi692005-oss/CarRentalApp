@@ -3,7 +3,11 @@ package com.example.carrentalapp.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -31,6 +35,10 @@ public class Home extends AppCompatActivity {
 
     VehicleAdapter adapter;
 
+
+    EditText edtSearch;
+
+    ArrayList<Vehicle> listsearch;
     ArrayList<Vehicle> list;
 
     ImageView btnCart, btnMenu;
@@ -45,6 +53,8 @@ public class Home extends AppCompatActivity {
 
         setContentView(R.layout.activity_home);
 
+        edtSearch = findViewById(R.id.edtSearch);
+
         recyclerVehicle =
                 findViewById(R.id.recyclerViewXe);
 
@@ -55,6 +65,8 @@ public class Home extends AppCompatActivity {
                 findViewById(R.id.btnMenu);
 
         list = new ArrayList<>();
+        listsearch = new ArrayList<>();
+
 
         adapter =
                 new VehicleAdapter(
@@ -68,6 +80,13 @@ public class Home extends AppCompatActivity {
                         1
                 )
         );
+
+
+        // lay du lieu intenput tu login -> home
+
+
+
+
 
         recyclerVehicle.setAdapter(adapter);
 
@@ -107,11 +126,42 @@ public class Home extends AppCompatActivity {
 
         });
 
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                list.clear();
+                for(Vehicle xe : listsearch)
+                {
+                    if(xe.getTen().toLowerCase().contains(
+                            charSequence.toString().toLowerCase()
+                    )){
+                        list.add(xe);
+                    }
+                    adapter.notifyDataSetChanged();
+
+                }
+            }
+        });
+
     }
 
     // =================================
     // LOAD VEHICLES
     // =================================
+
+
+
 
     private void loadVehicles(){
 
@@ -178,6 +228,7 @@ public class Home extends AppCompatActivity {
                                         );
 
                                 list.add(vehicle);
+                                listsearch.add(vehicle);
 
                             }
 

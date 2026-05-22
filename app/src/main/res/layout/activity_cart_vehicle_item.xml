@@ -4,10 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
-    app:cardCornerRadius="18dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true">
+    android:layout_marginBottom="20dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,14 +17,14 @@
         <ImageView
             android:id="@+id/imgXe"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="144dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/car"/>
+            app:srcCompat="@drawable/car" />
 
         <!-- CONTENT -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="265dp"
             android:orientation="vertical"
             android:padding="14dp">
 
@@ -33,78 +32,93 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/txtTenXe"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Mercedes C300"
-                    android:textStyle="bold"
+                    android:text=" Mercedes C300"
+                    android:textColor="#111"
                     android:textSize="19sp"
-                    android:textColor="#111"/>
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/txtGia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.500.000đ/ngày"
-                    android:textColor="#E53935"
-                    android:textStyle="bold"
-                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <!-- BIỂN SỐ -->
             <TextView
-                android:id="@+id/txtBienSo"
+                android:id="@+id/txtmadon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Biển số: 30A-12345"
-                android:textColor="#777"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp"
+                android:textSize="17sp"
+                android:text=" Mã đơn:"
+                android:textColor="#F80000" />
+
+            <TextView
+                android:id="@+id/txtGia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Giá: 1.500.000đ/ngày"
+                android:textColor="#E53935"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- BIỂN SỐ -->
+
+            <TextView
+                android:id="@+id/txtBienSo"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="4dp"
+                android:text=" Biển số: 30A-12345"
+                android:textColor="#777" />
 
             <!-- MÔ TẢ (SCROLL MƯỢT) -->
 
             <!-- THÔNG TIN -->
+
+            <TextView
+                android:id="@+id/txtNgayDangKy"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+
+                android:gravity="center_vertical"
+                android:text=" Ngày đăng ký: 10/04/2026"
+                android:textColor="#555" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:layout_height="20dp"
 
-                <TextView
-                    android:id="@+id/txtNgayDangKy"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="📅 ĐK: 10/04/2026"
-                    android:textColor="#555"/>
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/txtNgayLay"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🚗 Lấy: 12/04/2026"
-                    android:textColor="#555"/>
-            </LinearLayout>
+                    android:layout_height="20dp"
+                    android:text=" Ngày lấy: 12/04/2026"
+                    android:textColor="#555" />
 
-            <TextView
-                android:id="@+id/txtSoNgay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Số ngày thuê⏱ 3 ngày"
-                android:layout_marginTop="4dp"/>
+                <TextView
+                    android:id="@+id/txtSoNgay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:text="Số ngày thuê: 3 ngày" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/txtThanhTien"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="💰 4.500.000đ"
-                android:textStyle="bold"
+                android:layout_height="20dp"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"
+                android:text="Tổng tiền: 4.500.000đ"
                 android:textColor="#2E7D32"
-                android:layout_marginTop="4dp"/>
+                android:textStyle="bold" />
 
             <!-- STATUS + BUTTON -->
             <LinearLayout
@@ -118,7 +132,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">>
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/txtTinhTrang"
@@ -126,15 +140,15 @@
                         android:layout_height="wrap_content"
                         android:text="Đang xử lý"
                         android:textColor="#FF9800"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/txtThanhToan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Chưa thanh toán"
                         android:layout_marginTop="10dp"
-                        android:textColor="#D32F2F"/>
+                        android:text="Chưa thanh toán"
+                        android:textColor="#D32F2F" />
                 </LinearLayout>
 
                 <!-- BUTTON -->
@@ -142,7 +156,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
-
                     <Button
                         android:id="@+id/btnXemThem"
                         android:layout_width="wrap_content"
@@ -157,9 +170,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Hủy"
                         android:backgroundTint="#F44336"
-                        android:textColor="#FFF"/>
+                        android:text="Hủy"
+                        android:textColor="#FFF" />
                 </LinearLayout>
 
             </LinearLayout>
