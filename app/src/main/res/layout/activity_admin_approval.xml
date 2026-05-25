@@ -1,18 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".admin.AdminApproval">
+    android:orientation="vertical"
+    android:background="#F4F6F9">
 
-    <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="wrap_content"
+    <!-- ================= HEADER ================= -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        tools:layout_editor_absoluteX="77dp"
-        tools:layout_editor_absoluteY="192dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:elevation="3dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="42dp"
+        android:paddingBottom="16dp">
+
+        <!-- BACK -->
+
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:padding="11dp"
+            android:src="@drawable/leave"
+            android:background="@drawable/bg_circle"
+            android:scaleType="centerInside"/>
+
+        <!-- TITLE -->
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Quản lý đơn hàng"
+            android:textAlignment="center"
+            android:textColor="#111111"
+            android:textStyle="bold"
+            android:textSize="27sp"/>
+
+    </LinearLayout>
+
+
+    <!-- ================= FILTER ================= -->
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingTop="12dp"
+        android:paddingBottom="6dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <!-- TAT CA -->
+
+            <TextView
+                android:id="@+id/btnTatCa"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="Tất cả"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/bg_button_blue"/>
+
+            <!-- CHUA DUYET -->
+
+            <TextView
+                android:id="@+id/btnChoDuyet"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="Chưa duyệt"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/bg_button_orange"/>
+
+            <!-- DA DUYET -->
+
+            <TextView
+                android:id="@+id/btnDaDuyet"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="Đã duyệt"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/bg_button_green"/>
+
+            <!-- DA HUY -->
+
+            <TextView
+                android:id="@+id/btnDaHuy"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp"
+                android:text="Đã hủy"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:background="@drawable/bg_button_red"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="10dp">
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_search"
+            android:hint="Tìm kiếm mã đơn"
+            android:paddingStart="16dp"
+            android:drawablePadding="10dp"
+            android:textColor="#111111"
+            android:textSize="15sp"
+            android:inputType="text"
+            android:drawableStart="@drawable/search1"/>
+
+    </LinearLayout>
+
+
+    <!-- ================= RECYCLER VIEW ================= -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerOrder"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="6dp"
+        android:clipToPadding="false"/>
+
+</LinearLayout>

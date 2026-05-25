@@ -74,9 +74,9 @@ public class Login extends AppCompatActivity {
 
         starNetworkChecking();
 
-        // ==========================
+
         // REGISTER
-        // ==========================
+
 
 
 
@@ -98,9 +98,8 @@ public class Login extends AppCompatActivity {
 
 
 
-        // ==========================
+
         // LOGIN
-        // ==========================
 
 
 
@@ -135,8 +134,8 @@ public class Login extends AppCompatActivity {
 
             // ADMIN
 
-            if(phone.equals("0978")
-                    && pass.equals("khoi69")){
+            if(phone.equals("0")
+                    && pass.equals("0")){
 
                 startActivity(
 
@@ -157,9 +156,9 @@ public class Login extends AppCompatActivity {
 
     }
 
-    // =================================
+
     // LOGIN API
-    // =================================
+
 
     private void loginUser(
             String phone,
@@ -229,9 +228,9 @@ public class Login extends AppCompatActivity {
 
                         }
 
-                        // ==========================
+
                         // SUCCESS
-                        // ==========================
+
 
                         @Override
                         public void onResponse(

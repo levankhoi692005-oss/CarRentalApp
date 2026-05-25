@@ -141,6 +141,7 @@ public class Home extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 list.clear();
+
                 for(Vehicle xe : listsearch)
                 {
                     if(xe.getTen().toLowerCase().contains(
@@ -148,9 +149,10 @@ public class Home extends AppCompatActivity {
                     )){
                         list.add(xe);
                     }
-                    adapter.notifyDataSetChanged();
+
 
                 }
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -202,6 +204,7 @@ public class Home extends AppCompatActivity {
                                     new JSONArray(result);
 
                             list.clear();
+                            listsearch.clear();
 
                             for(int i = 0; i < array.length(); i++){
 
@@ -223,7 +226,19 @@ public class Home extends AppCompatActivity {
 
                                                 object.getInt("dongia"),
 
-                                                object.getString("mota")
+                                                object.getString("mota"),
+
+                                                object.getString("mau"),
+
+                                                object.getInt("soghe"),
+
+                                                object.getInt("namsanxuat"),
+
+                                                object.getString("hopso"),
+
+                                                object.getString("congsuat"),
+
+                                                object.getString("nhienlieu")
 
                                         );
 

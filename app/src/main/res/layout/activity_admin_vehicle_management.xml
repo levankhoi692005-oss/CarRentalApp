@@ -62,6 +62,7 @@
                     android:text="Thông tin xe"
                     android:textSize="22sp"
                     android:textStyle="bold"
+                    android:layout_gravity="center"
                     android:textColor="#222222"
                     android:layout_marginBottom="16dp"/>
 
@@ -90,6 +91,71 @@
                     android:layout_height="55dp"
                     android:hint="Đơn giá"
                     android:inputType="number"
+                    android:padding="14dp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginBottom="12dp"/>
+                <!-- MÀU XE -->
+
+                <EditText
+                    android:id="@+id/editmau"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Màu xe"
+                    android:inputType="text"
+                    android:padding="14dp" />
+
+                <!-- SỐ GHẾ -->
+
+                <EditText
+                    android:id="@+id/editsoghe"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="Số ghế"
+                    android:inputType="number"
+                    android:padding="14dp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- NĂM SẢN XUẤT -->
+
+                <EditText
+                    android:id="@+id/editnamsanxuat"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="Năm sản xuất"
+                    android:inputType="number"
+                    android:padding="14dp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- HỘP SỐ -->
+
+                <EditText
+                    android:id="@+id/edithopso"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="Hộp số"
+                    android:padding="14dp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- CÔNG SUẤT -->
+
+                <EditText
+                    android:id="@+id/editcongsuat"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="Công suất"
+                    android:padding="14dp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginBottom="12dp"/>
+                <EditText
+                    android:id="@+id/editnhienlieu"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:hint="Nhiên liệu"
                     android:padding="14dp"
                     android:background="@drawable/edittext_bg"
                     android:layout_marginBottom="12dp"/>

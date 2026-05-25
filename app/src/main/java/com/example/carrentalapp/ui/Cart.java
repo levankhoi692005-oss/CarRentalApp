@@ -33,7 +33,7 @@ public class Cart extends AppCompatActivity {
 
     RecyclerView recyclerOrder;
 
-    ImageView btnBack,
+    ImageView
             btnHome,
             btnCart,
             btnMenu;
@@ -68,17 +68,16 @@ public class Cart extends AppCompatActivity {
 
     }
 
-    // =========================
+
     // INIT VIEW
-    // =========================
+
 
     private void initViews(){
 
         recyclerOrder =
                 findViewById(R.id.recyclerOrder);
 
-        btnBack =
-                findViewById(R.id.btnBack);
+
 
         btnHome =
                 findViewById(R.id.btnHome1);
@@ -97,9 +96,9 @@ public class Cart extends AppCompatActivity {
 
     }
 
-    // =========================
+
     // GET USER ID
-    // =========================
+
 
     private void getUserId(){
 
@@ -117,9 +116,9 @@ public class Cart extends AppCompatActivity {
 
     }
 
-    // =========================
+
     // SETUP RECYCLER
-    // =========================
+
 
     private void setupRecycler(){
 
@@ -139,9 +138,9 @@ public class Cart extends AppCompatActivity {
 
     }
 
-    // =========================
+
     // LOAD ORDERS MYSQL
-    // =========================
+
 
     private void loadOrders(){
 
@@ -279,13 +278,12 @@ public class Cart extends AppCompatActivity {
 
     }
 
-    // =========================
     // CLICK EVENTS
-    // =========================
+
 
     private void clickEvents(){
 
-        btnBack.setOnClickListener(v -> finish());
+
 
         btnHome.setOnClickListener(v -> {
 

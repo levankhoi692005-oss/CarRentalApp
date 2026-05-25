@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F7FE"
+    android:background="@drawable/anhnen"
     android:fitsSystemWindows="true">
 
     <!-- HEADER -->
@@ -17,19 +17,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="18dp"
-        android:background="#FFFFFF"
+
         android:elevation="6dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/btnBack"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_circle"
-            app:tint="#111111"/>
 
         <TextView
             android:layout_width="0dp"
@@ -71,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="50dp"
+                android:background="@drawable/anhnen"
                 android:clipToPadding="false"
                 tools:listitem=""/>
 

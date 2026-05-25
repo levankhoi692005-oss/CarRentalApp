@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -92,9 +93,6 @@ public class CustomerInfo extends AppCompatActivity {
 
         setContentView(R.layout.activity_customer_info);
 
-        // ==========================
-        // FIND VIEW
-        // ==========================
 
         imgXe =
                 findViewById(R.id.imgXe);
@@ -147,9 +145,9 @@ public class CustomerInfo extends AppCompatActivity {
         btnThue =
                 findViewById(R.id.btnThue);
 
-        // ==========================
+
         // GET USER ID
-        // ==========================
+
 
         SharedPreferences preferences =
                 getSharedPreferences(
@@ -163,9 +161,9 @@ public class CustomerInfo extends AppCompatActivity {
                         -1
                 );
 
-        // ==========================
+
         // GET INTENT
-        // ==========================
+
 
         Intent intent =
                 getIntent();
@@ -185,9 +183,9 @@ public class CustomerInfo extends AppCompatActivity {
                         0
                 );
 
-        // ==========================
+
         // HIỂN THỊ XE
-        // ==========================
+
 
         txtTenXe.setText(
                 tenxe
@@ -205,9 +203,12 @@ public class CustomerInfo extends AppCompatActivity {
                 .load(anhxe)
                 .into(imgXe);
 
-        // ==========================
+
         // NGÀY GIỜ HIỆN TẠI
-        // ==========================
+
+
+
+
 
         SimpleDateFormat sdfNgay =
                 new SimpleDateFormat(
@@ -221,6 +222,9 @@ public class CustomerInfo extends AppCompatActivity {
                         Locale.getDefault()
                 );
 
+        sdfNgay.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+        sdfGio.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+
         ngaydat =
                 sdfNgay.format(new Date());
 
@@ -232,9 +236,10 @@ public class CustomerInfo extends AppCompatActivity {
         );
 
 
-        // ==========================
+        txtGioDangKy.setText(giodangky);
+
         // TÍNH TIỀN
-        // ==========================
+
 
         edtSoNgay.addTextChangedListener(
                 new TextWatcher() {
@@ -296,12 +301,14 @@ public class CustomerInfo extends AppCompatActivity {
 
         );
 
-        // ==========================
+
         // DATE PICKER
-        // ==========================
+
 
         edtNgayLay.setOnClickListener(v -> {
 
+
+            String ngaydat = txtNgayDangKy.getText().toString();
             java.util.Calendar calendar =
                     java.util.Calendar.getInstance();
 
@@ -348,13 +355,35 @@ public class CustomerInfo extends AppCompatActivity {
 
                     );
 
+            try {
+
+                SimpleDateFormat sdf = new SimpleDateFormat(
+                        "yyyy-MM-dd",
+                        Locale.getDefault()
+                );
+
+                Date datedat = sdf.parse(ngaydat);
+
+                dp.getDatePicker().setMinDate(
+                        datedat.getTime() +86400000
+                );
+
+
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+
+
             dp.show();
 
         });
 
-        // ==========================
+
         // BUTTON THUÊ
-        // ==========================
+
 
         btnThue.setOnClickListener(v -> {
 
@@ -388,9 +417,9 @@ public class CustomerInfo extends AppCompatActivity {
                             .toString()
                             .trim();
 
-            // ==========================
+
             // CHECK EMPTY
-            // ==========================
+
 
             if(hoten.isEmpty()
                     || sdt.isEmpty()
@@ -413,9 +442,9 @@ public class CustomerInfo extends AppCompatActivity {
 
             }
 
-            // ==========================
+
             // CHECK THANH TOÁN
-            // ==========================
+
 
             int selectedId =
                     radioThanhToan
@@ -446,9 +475,9 @@ public class CustomerInfo extends AppCompatActivity {
 
 
 
-            // ==========================
+
             // GỬI API
-            // ==========================
+
 
 
             ApiService.order(
@@ -552,9 +581,9 @@ public class CustomerInfo extends AppCompatActivity {
 
         });
 
-        // ==========================
+
         // BACK
-        // ==========================
+
 
         btnBack.setOnClickListener(v -> {
 

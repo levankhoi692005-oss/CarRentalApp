@@ -6,14 +6,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.carrentalapp.R;
+import com.example.carrentalapp.api.ApiService;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class DetailOrder extends AppCompatActivity {
     ImageView btnBack;
@@ -34,17 +48,26 @@ public class DetailOrder extends AppCompatActivity {
     txtNgayDangKy,
             txtNgayLay,
 
-            txtsongaythue,
+    txtsongaythue,
             txtDiaChiLay,
 
-            txtghichu,
+    txtghichu,
 
     thongtin,
 
     txtTongTien,
             txtLoaiThanhToan,
             txtTinhTrang,
+
+    txtCongSuat,
+            txtSoGhe,
+            txtNhienLieu,
+
     thanhtoan;
+
+    String madon="";
+    String hoten="";
+    String sodienthoai="";
 
 
     @SuppressLint("MissingInflatedId")
@@ -71,9 +94,6 @@ public class DetailOrder extends AppCompatActivity {
 
         txtTenXe =
                 findViewById(R.id.tenxe);
-
-        txtHangXe =
-                findViewById(R.id.hangxe);
 
         txtBienSo =
                 findViewById(R.id.bienso);
@@ -120,98 +140,243 @@ public class DetailOrder extends AppCompatActivity {
         thanhtoan =
                 findViewById(R.id.thanhtoan);
 
+        txtCongSuat =
+                findViewById(R.id.congxuat);
+
+        txtSoGhe =
+                findViewById(R.id.soghe);
+
+        txtNhienLieu =
+                findViewById(R.id.nhienlieu);
 
 
-        String getMadon = getIntent().getStringExtra("getMadon");
-        String getHoten = getIntent().getStringExtra("getHoten");
-        String getSodienthoai = getIntent().getStringExtra("getSodienthoai");
-        String getNgaydat = getIntent().getStringExtra("getNgaydat");
-        String getNgaylay = getIntent().getStringExtra("getNgaylay");
-        String getGhichu = getIntent().getStringExtra("getGhichu");
-        String getThanhtoan = getIntent().getStringExtra("getThanhtoan");
-        String getTinhtrang = getIntent().getStringExtra("getTinhtrang");
-        String getTenxe = getIntent().getStringExtra("getTenxe");
-        String getDiachikh = getIntent().getStringExtra("getDiachikh");
-        String getDiachinhan = getIntent().getStringExtra("getDiachinhan");
-        String getBienso = getIntent().getStringExtra("getBienso");
+        NumberFormat nf = NumberFormat.getInstance(new Locale("vi","VN"));
 
-        int getSongaythue = getIntent().getIntExtra("getSongaythue",-1);
-        int getDongia = getIntent().getIntExtra("getDongia",-1);
-        int getThanhtien = getIntent().getIntExtra("getThanhtien",-1);
-        int getUser_id = getIntent().getIntExtra("getUser_id",-1);
+       String madonIntent = getIntent().getStringExtra("madon");
+//
 
 
-        thongtin.setText(" Thông tin đơn "+getMadon);
+        ApiService.getdetailorder(
+                madonIntent,
+                new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        Toast.makeText(
+                                DetailOrder.this,
+                                "Lỗi mạng",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
 
-        txtMaDon.setText(
-                "Mã đơn: " + getMadon
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                        String result = response.body().string();
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            Boolean success = jsonObject.getBoolean("success");
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            JSONObject object = jsonArray.getJSONObject(0);
+
+                            if(success) {
+
+                                 madon =
+                                        object.getString("madon");
+
+                                String bienso =
+                                        object.getString("bienso");
+
+                                 hoten =
+                                        object.getString("hoten");
+
+                                 sodienthoai =
+                                        object.getString("sodienthoai");
+
+                                String ngaydat =
+                                        object.getString("ngaydat");
+
+                                String ngaylay =
+                                        object.getString("ngaylay");
+
+                                int songaythue =
+                                        object.getInt("songaythue");
+
+                                int dongia =
+                                        object.getInt("dongia");
+
+                                int thanhtien =
+                                        object.getInt("thanhtien");
+
+                                String thanhtoantext =
+                                        object.getString("thanhtoan");
+
+                                String tinhtrang =
+                                        object.getString("tinhtrang");
+
+                                String ghichu =
+                                        object.getString("ghichu");
+
+                                int user_id =
+                                        object.getInt("user_id");
+
+                                String tenxe =
+                                        object.getString("tenxe");
+
+                                String diachikh =
+                                        object.getString("diachikh");
+
+                                String diachinhan =
+                                        object.getString("diachinhan");
+
+                                String hinhxe1 =
+                                        object.getString("hinhxe1");
+
+                                String hinhxe2 =
+                                        object.getString("hinhxe2");
+
+                                String mota =
+                                        object.getString("mota");
+
+                                String mau =
+                                        object.getString("mau");
+
+                                int soghe =
+                                        object.getInt("soghe");
+
+                                int namsanxuat =
+                                        object.getInt("namsanxuat");
+
+                                String hopso =
+                                        object.getString("hopso");
+
+                                String congsuat =
+                                        object.getString("congsuat");
+
+                                String nhienlieu =
+                                        object.getString("nhienlieu");
+
+
+                                thongtin.setText(
+                                        "Thông tin đơn " + madon
+                                );
+
+                                txtMaDon.setText(
+                                        "Mã đơn: " + madon
+                                );
+
+                                txtTenKh.setText(
+                                        "Họ và tên: " + hoten
+                                );
+
+                                txtSdtKh.setText(
+                                        "Số điện thoại: " + sodienthoai
+                                );
+
+                                txtDiaChiKh.setText(
+                                        "Địa chỉ: " + diachikh
+                                );
+
+                                txtTenXe.setText(
+                                        tenxe
+                                );
+
+                                txtBienSo.setText(
+                                        "Biển số: " + bienso
+                                );
+
+                                txtNamSX.setText(
+                                        "Năm sản xuất: " + namsanxuat
+                                );
+
+                                txtMauXe.setText(
+                                        "Màu xe: " + mau
+                                );
+
+                                txtHopSo.setText(
+                                        "Hộp số: " + hopso
+                                );
+
+                                txtCongSuat.setText(
+                                        "Công suất: " + congsuat
+                                );
+
+                                txtSoGhe.setText(
+                                        "Số ghế: " + soghe
+                                );
+
+                                txtNhienLieu.setText(
+                                        "Nhiên liệu: " + nhienlieu
+                                );
+
+                                txtGia.setText(
+                                        "Đơn giá: "
+                                                + nf.format(dongia)
+                                                + " VNĐ/ngày"
+                                );
+
+                                txtNgayDangKy.setText(
+                                        "Ngày đăng ký: " + ngaydat
+                                );
+
+                                txtNgayLay.setText(
+                                        "Ngày lấy xe: " + ngaylay
+                                );
+
+                                txtsongaythue.setText(
+                                        "Số ngày thuê: "
+                                                + songaythue
+                                                + " ngày"
+                                );
+
+                                txtDiaChiLay.setText(
+                                        "Địa chỉ nhận: "
+                                                + diachinhan
+                                );
+
+                                txtTongTien.setText(
+                                        "Tổng tiền: "
+                                                + nf.format(thanhtien)
+                                                + " VNĐ"
+                                );
+
+                                txtLoaiThanhToan.setText(
+                                        "Phương thức: "
+                                                + thanhtoantext
+                                );
+
+                                txtTinhTrang.setText(
+                                        "Tình trạng: "
+                                                + tinhtrang
+                                );
+
+                                txtghichu.setText(
+                                        "Ghi chú: "
+                                                + ghichu
+                                );
+                            }
+                            else
+                            {
+                                Toast.makeText(
+                                        DetailOrder.this,
+                                        "Lỗi server",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }
+
         );
 
-        txtTenKh.setText(
-                "Họ và tên: " + getHoten
-        );
 
-        txtSdtKh.setText(
-                "Số điện thoại: " + getSodienthoai
-        );
-
-        txtDiaChiKh.setText(
-                "Địa chỉ: " + getDiachikh
-        );
-
-        txtTenXe.setText(
-                getTenxe
-        );
-
-        txtBienSo.setText(
-                "Biển số: " + getBienso
-        );
-
-        txtNgayDangKy.setText(
-                "Ngày đăng ký: " + getNgaydat
-        );
-
-        txtNgayLay.setText(
-                "Ngày lấy xe: " + getNgaylay
-        );
-
-        txtsongaythue.setText(
-                "Số ngày thuê: "
-                        + getSongaythue
-                        + " ngày"
-        );
-
-        txtGia.setText(
-                "Đơn giá: "
-                        + getDongia
-                        + "đ/ngày"
-        );
-
-        txtTongTien.setText(
-                "Tổng tiền: "
-                        + getThanhtien
-                        + "đ"
-        );
-
-        txtLoaiThanhToan.setText(
-                "Phương thức: "
-                        + getThanhtoan
-        );
-
-        txtTinhTrang.setText(
-                "Tình trạng: "
-                        + getTinhtrang
-        );
-
-        txtDiaChiLay.setText(
-                "Địa chỉ nhận: "
-                        + getDiachinhan
-        );
-
-        txtghichu.setText(
-                "Ghi chú: "
-                        + getGhichu
-        );
 
 
 
@@ -226,8 +391,11 @@ public class DetailOrder extends AppCompatActivity {
         thanhtoan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                Intent intent = new Intent(DetailOrder.this, Payment.class);
+                intent.putExtra("madon",madon);
+                intent.putExtra("hoten",hoten);
+                intent.putExtra("sodienthoai",sodienthoai);
+                startActivity(intent);
             }
         });
     }

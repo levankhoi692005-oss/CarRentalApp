@@ -1,5 +1,7 @@
 package com.example.carrentalapp.api;
 
+import com.example.carrentalapp.R;
+
 import org.json.JSONObject;
 
 import okhttp3.Call;
@@ -8,6 +10,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okio.ByteString;
 
 public class ApiService {
 
@@ -17,9 +20,8 @@ public class ApiService {
     private static final OkHttpClient client =
             new OkHttpClient();
 
-    // ==============================
     // GET VEHICLES
-    // ==============================
+
 
     public static void getVehicles(
             Callback callback
@@ -35,9 +37,9 @@ public class ApiService {
 
     }
 
-    // ==============================
+
     // ADD VEHICLE
-    // ==============================
+
 
     public static void addVehicle(
 
@@ -48,48 +50,71 @@ public class ApiService {
             int dongia,
             String mota,
 
+            String mau,
+            int soghe,
+            int namsanxuat,
+            String hopso,
+            String congsuat,
+            String nhienlieu,
+
+
+
             Callback callback
 
     ){
 
-        String json = "{"
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("hinhxe1", hinhxe1);
 
-                + "\"hinhxe1\":\"" + hinhxe1 + "\","
+            jsonObject.put("hinhxe2", hinhxe2);
 
-                + "\"hinhxe2\":\"" + hinhxe2 + "\","
+            jsonObject.put("tenxe", tenxe);
 
-                + "\"tenxe\":\"" + tenxe + "\","
+            jsonObject.put("bienso", bienso);
 
-                + "\"bienso\":\"" + bienso + "\","
+            jsonObject.put("dongia", dongia);
 
-                + "\"dongia\":" + dongia + ","
+            jsonObject.put("mota", mota);
 
-                + "\"mota\":\"" + mota + "\""
+            jsonObject.put("mau", mau);
 
-                + "}";
+            jsonObject.put("soghe", soghe);
 
-        RequestBody body =
-                RequestBody.create(
-                        json,
-                        MediaType.parse(
-                                "application/json"
-                        )
-                );
+            jsonObject.put("namsanxuat", namsanxuat);
+
+            jsonObject.put("hopso", hopso);
+
+            jsonObject.put("congsuat", congsuat);
+
+            jsonObject.put("nhienlieu", nhienlieu);
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        RequestBody requestBody = RequestBody.create(
+                jsonObject.toString(),
+                MediaType.parse(
+                        "application/json"
+                )
+        );
 
         Request request =
                 new Request.Builder()
-                        .url(BASE_URL + "addvehicle")
-                        .post(body)
+                        .url(BASE_URL+"addvehicle")
+                        .post(requestBody)
                         .build();
 
-        client.newCall(request)
-                .enqueue(callback);
+        client.newCall(request).enqueue(callback);
 
     }
 
-    // ==============================
     // DELETE VEHICLE
-    // ==============================
+
 
     public static void deleteVehicle(
             int id,
@@ -114,9 +139,9 @@ public class ApiService {
 
     }
 
-    // ==============================
+
     // UPDATE VEHICLE hhh
-    // ==============================
+
 
     public static void updateVehicle(
 
@@ -128,55 +153,64 @@ public class ApiService {
             String bienso,
             int dongia,
             String mota,
+            String mau,
+            int soghe,
+            int namsanxuat,
+            String hopso,
+            String congsuat,
+            String nhienlieu,
 
             Callback callback
 
     ){
 
-        String json = "{"
+        JSONObject jsonObject = new JSONObject();
+        try {
 
-                + "\"hinhxe1\":\"" + hinhxe1 + "\","
+            jsonObject.put("hinhxe1", hinhxe1);
 
-                + "\"hinhxe2\":\"" + hinhxe2 + "\","
+            jsonObject.put("hinhxe2", hinhxe2);
 
-                + "\"tenxe\":\"" + tenxe + "\","
+            jsonObject.put("tenxe", tenxe);
 
-                + "\"bienso\":\"" + bienso + "\","
+            jsonObject.put("bienso", bienso);
 
-                + "\"dongia\":" + dongia + ","
+            jsonObject.put("dongia", dongia);
 
-                + "\"mota\":\"" + mota + "\""
+            jsonObject.put("mota", mota);
 
-                + "}";
 
-        RequestBody body =
-                RequestBody.create(
-                        json,
-                        MediaType.parse(
-                                "application/json"
-                        )
-                );
+            jsonObject.put("mau", mau);
 
-        Request request =
-                new Request.Builder()
+            jsonObject.put("soghe", soghe);
 
-                        .url(
-                                BASE_URL
-                                        + "updatevehicle/"
-                                        + id
-                        )
+            jsonObject.put("namsanxuat", namsanxuat);
 
-                        .put(body)
+            jsonObject.put("hopso", hopso);
 
-                        .build();
+            jsonObject.put("congsuat", congsuat);
+            jsonObject.put("nhienlieu", nhienlieu);
 
-        client.newCall(request)
-                .enqueue(callback);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
+        RequestBody requestBody = RequestBody.create(
+                jsonObject.toString(),
+                MediaType.parse("application/json")
+        );
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+ "updatevehicle/" + id)
+                .put(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(callback);
     }
 
 
-    // POST ORDER //
+    // POST ORDER
 
     public static void order(
             String bienso,
@@ -270,9 +304,7 @@ public class ApiService {
 
 
 
-    // ==============================
 // GET ORDERS
-// ==============================
 
     public static void getOrders(
             Callback callback
@@ -306,23 +338,39 @@ public class ApiService {
 
 
     }
+
     // CANCEL ORDER
 
-    public  static void cancelOrder(
-            int id,
+    public  static void UpdatOrder(
+            String madon,
+            String tinhtrang,
+            String thanhtoan,
             Callback callback
     )
     {
+        JSONObject jsonObject = new JSONObject();
+        try{
+            jsonObject.put("tinhtrang",tinhtrang);
+            jsonObject.put("thanhtoan",thanhtoan);
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+         RequestBody requestBody = RequestBody.create(
+                 jsonObject.toString(),
+                 MediaType.parse("application/json")
+
+         );
         Request request = new Request.Builder().url(
                 BASE_URL
-                        + "cancelorder/"
-                        + id
-        ).put(
-                RequestBody.create(
-                        "",
-                        null
-                )
-        ).build();
+                        + "updateorder/"
+                        + madon
+        ).put(requestBody)
+        .build();
+
         client.newCall(request).enqueue(callback);
     }
 
@@ -365,5 +413,50 @@ public class ApiService {
 
     }
 
+    // viet api lay anh theo bien so
+
+    public static void getimagevehicle(
+            String bienso,
+            Callback callback
+    )
+    {
+        Request request = new Request.Builder()
+                .url(BASE_URL+"imagevehicle/"+bienso)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+
+    }
+
+    // viet api lay thong tin kh,
+    // xe cho thong tin don dua vao madon
+
+
+    public  static void getdetailorder(
+            String madon,
+            Callback callback
+
+    )
+    {
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+"detailorder/"+madon)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+
+    }
+
+    public  static  void getallmadon(
+
+            Callback callback
+    )
+    {
+        Request request = new Request.Builder()
+                .url(BASE_URL +"allmadon")
+                .build();
+        client.newCall(request).enqueue(callback);
+
+    }
 
 }

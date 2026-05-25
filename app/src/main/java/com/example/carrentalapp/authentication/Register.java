@@ -47,9 +47,9 @@ public class Register extends AppCompatActivity {
 
         setContentView(R.layout.activity_register);
 
-        // ==========================
+
         // FINDVIEWBYID
-        // ==========================
+
 
         edtName =
                 findViewById(R.id.edtName);
@@ -66,13 +66,13 @@ public class Register extends AppCompatActivity {
         btnRegister =
                 findViewById(R.id.btnRegister);
 
-        // 🔥 THÊM NÚT LOGIN
+
         btnLogin =
                 findViewById(R.id.textView2);
 
-        // ==========================
+
         // QUAY LẠI LOGIN
-        // ==========================
+
 
         btnLogin.setOnClickListener(v -> {
 
@@ -92,9 +92,9 @@ public class Register extends AppCompatActivity {
 
         });
 
-        // ==========================
+
         // REGISTER
-        // ==========================
+
 
         btnRegister.setOnClickListener(v -> {
 
@@ -118,9 +118,9 @@ public class Register extends AppCompatActivity {
                             .toString()
                             .trim();
 
-            // ==========================
+
             // CHECK EMPTY
-            // ==========================
+
 
             if(name.isEmpty()
                     || phone.isEmpty()
@@ -141,9 +141,9 @@ public class Register extends AppCompatActivity {
 
             }
 
-            // ==========================
+
             // CHECK PASSWORD
-            // ==========================
+
 
             if(!pass.equals(confirm)){
 
@@ -171,9 +171,9 @@ public class Register extends AppCompatActivity {
 
     }
 
-    // =================================
+
     // REGISTER USER
-    // =================================
+
 
     private void registerUser(
 

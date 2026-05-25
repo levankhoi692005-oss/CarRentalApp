@@ -107,15 +107,6 @@
                         android:gravity="center"
                         android:text="Nội dung: Họ và tên +Số điện thoại + Mã đơn" />
 
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:text="(Vd: Lê văn Khởi 097861 + MD41 )" />
-
 
                     <TextView
                         android:id="@+id/textView10"

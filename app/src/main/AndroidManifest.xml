@@ -16,6 +16,15 @@
         android:theme="@style/Theme.CarRentalApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.Vehicle_Image_View"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminViewOrder"
+            android:exported="false" />
+        <activity
+            android:name=".ui.DetailVehicle"
+            android:exported="false" />
+        <activity
             android:name=".ui.Qr"
             android:exported="false" />
         <activity

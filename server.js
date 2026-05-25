@@ -4,6 +4,7 @@
 
     const cors = require("cors");
 
+
     const app = express();
 
     app.use(cors());
@@ -219,13 +220,19 @@
             tenxe,
             bienso,
             dongia,
-            mota
+            mota,
+            mau,
+            soghe,
+            namsanxuat,
+            hopso,
+            congsuat,
+            nhienlieu
 
         } = req.body;
 
         db.query(
 
-            "INSERT INTO dulieuxe(hinhxe1,hinhxe2,tenxe,bienso,dongia,mota) VALUES(?,?,?,?,?,?)",
+            "INSERT INTO dulieuxe(hinhxe1,hinhxe2,tenxe,bienso,dongia,mota,mau,soghe,namsanxuat,hopso,congsuat,nhienlieu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
 
             [
 
@@ -234,7 +241,13 @@
                 tenxe,
                 bienso,
                 dongia,
-                mota
+                mota,
+                mau,
+                soghe,
+                namsanxuat,
+                hopso,
+                congsuat,
+                nhienlieu
 
             ],
 
@@ -348,13 +361,21 @@
             tenxe,
             bienso,
             dongia,
-            mota
+            mota,
+            mau,
+            soghe,
+            namsanxuat,
+            hopso,
+            congsuat,
+            nhienlieu
 
         } = req.body;
 
+        console.log("xe so: "+id);
+
         db.query(
 
-            "UPDATE dulieuxe SET hinhxe1=?, hinhxe2=?, tenxe=?, bienso=?, dongia=?, mota=? WHERE id=?",
+            "UPDATE dulieuxe SET hinhxe1=?, hinhxe2=?, tenxe=?, bienso=?, dongia=?, mota=?, mau=?,soghe=?,namsanxuat=?,hopso=?,congsuat=?, nhienlieu=?  WHERE id=? ",
 
             [
 
@@ -364,6 +385,12 @@
                 bienso,
                 dongia,
                 mota,
+                mau,
+                soghe,
+                namsanxuat,
+                hopso,
+                congsuat,
+                nhienlieu,
                 id
 
             ],
@@ -563,100 +590,70 @@
 });
 
 
- // Huy don: neu chua phe duyet thi huy dc , phe duyet roi khong huy dc
 
-//  app.put("/cancelorder/:id", (req,res) =>
-// {
-//     const id = req.params.id;
-
-//     // kiem tra trang thai don hang
-//     db.query(
-//         "SELECT * FROM datxe Where id=?",
-//         [id],
-//         (err,result) =>{
-
-//             if(err){
-//                 console.log(err);
-
-//                 res.json({
-//                     success:false
-//                 });
-
-                
-//             }
-//             else{
-//                 if(result.length > 0){
-//                     const order = result[0];
-
-//                     // da duyet
-//                     if(order.tinhtrang==="Đã duyệt"){
-//                         res.json({
-//                             success: false,
-//                             message:"Đơn đã duyệt, không thể hủy"
-//                         });
-//                     }
-//                     // chua duyet
-//                     else
-//                     {
-//                         db.query(
-//                             "UPDATE datxe SET tinhtrang=? WHERE id=?",
-//                             ["Đã hủy", id],
-//                             (err2,result2)=>{
-//                                 if(err2){
-//                                     console.log(err2);
-//                                     res.json({
-//                                         success:false
-
-//                                     });
-//                                 }
-//                                 else{
-//                                     res.json({
-//                                         success:true
-//                                     });
-//                                 }
-//                             }
-//                         )
-//                     }
-//                 }
-//                 else
-//                 {
-//                     res.json({
-//                         success:false,
-//                         message:"khong tim thay don"
-//                     });
-//                 }
-//             }
-//         }
-
-//     );
-
-// });
-
-
-app.put("/cancelorder/:id", (req,res) =>
+app.put("/updateorder/:madon", (req,res) =>
 {
 
     try{
 
-        const id = req.params.id;
+        const madon = req.params.madon;
+        const 
+        {
+            tinhtrang,
+            thanhtoan
+        } = req.body;
 
-        console.log("===== HỦY ĐƠN =====");
+        
+        let updatevalue=[];
+        let updatefile =[];
 
-        console.log("ID ĐƠN:", id);
+        if(!madon)
+        {
+            return  res.json({
 
-        // KIỂM TRA ĐƠN
+                success:false,
+                message:"Thiếu ma đơn"
+            });
+        }
+
+        if(tinhtrang)
+        {
+            updatefile.push("tinhtrang=?");
+            
+            updatevalue.push(tinhtrang);
+        }
+
+        
+        if(thanhtoan)
+        {
+            updatefile.push("thanhtoan=?");
+            
+            updatevalue.push(thanhtoan);
+        }
+
+        
+
+        if(updatefile.length<=0)
+        {
+            return  res.json({
+
+                success:false,
+                message:"không có gì để cập nhập"
+            });
+        }
+
+        updatevalue.push(madon)
+
+        const sql = `UPDATE datxe SET ${updatefile.join(", ")} WHERE madon=?`
+
 
         db.query(
-
-            "SELECT * FROM datxe WHERE id=?",
-
-            [id],
-
-            (err,result) =>{
-
-                if(err){
-
-                    console.log("LỖI SELECT:");
+            sql,
+            updatevalue,
+            (err,result)=>
+            {
+                if(err)
+                {
 
                     console.log(err);
 
@@ -666,85 +663,17 @@ app.put("/cancelorder/:id", (req,res) =>
 
                 }
 
-                // KHÔNG TÌM THẤY
 
-                if(result.length <= 0){
+                res.json({
 
-                    console.log("KHÔNG TÌM THẤY ĐƠN");
+                    success:true,
 
-                    return res.json({
+                    message:"Cập nhật thành công"
 
-                        success:false,
-
-                        message:"Không tìm thấy đơn"
-
-                    });
-
-                }
-
-                const order = result[0];
-
-                console.log("TRẠNG THÁI:", order.tinhtrang);
-
-                // ĐÃ DUYỆT
-
-                if(order.tinhtrang === "Đã duyệt"){
-
-                    console.log("ĐƠN ĐÃ DUYỆT");
-
-                    return res.json({
-
-                        success:false,
-
-                        message:
-                                "Đơn đã duyệt, không thể hủy"
-
-                    });
-
-                }
-
-                // HỦY ĐƠN
-
-                db.query(
-
-                    "UPDATE datxe SET tinhtrang=? WHERE id=?",
-
-                    [
-
-                        "Đã hủy",
-
-                        id
-
-                    ],
-
-                    (err2,result2)=>{
-
-                        if(err2){
-
-                            console.log("LỖI UPDATE:");
-
-                            console.log(err2);
-
-                            return res.json({
-                                success:false
-                            });
-
-                        }
-
-                        console.log("HỦY ĐƠN THÀNH CÔNG");
-
-                        res.json({
-                            success:true
-                        });
-
-                    }
-
-                );
-
+                });
             }
 
-        );
-
+        )
     }
     catch(e){
 
@@ -825,6 +754,107 @@ app.put("/changepassword",(req,res)=>
     );
 
     
+
+});
+
+
+//get anh xe theo bienso xe
+
+
+    app.get("/imagevehicle/:bienso",(req,res)=>
+    {
+
+        const bienso = req.params.bienso;
+
+        db.query("SELECT hinhxe1, hinhxe2 FROM dulieuxe WHERE bienso=? ",
+            [bienso],
+            (err,result)=>
+            {
+                if(err)
+                {
+                    console.log(err);
+                    res.json({
+                        success:false
+                    });
+
+                }
+                else{
+                    
+                    res.json({
+                        success:true,
+                        hinhxe1:result[0].hinhxe1,
+                        hinhxe2:result[0].hinhxe2
+                    });
+                }
+            }
+        );
+
+    });
+
+
+
+    // lay chi tiết đơn hành theo madon
+
+
+    app.get("/detailorder/:madon",(req,res)=>
+    {
+
+        const madon = req.params.madon;
+
+        db.query("SELECT * FROM dulieuxe JOIN datxe ON dulieuxe.bienso = datxe.bienso WHERE madon=?",
+            [madon],
+            (err,result)=>
+            {
+                if(err)
+                {
+                    console.log(err);
+                    res.json({
+
+                        success:false
+                    });
+                }
+                else
+                {
+                    res.json({
+
+                        success:true,
+                        data:result
+                    });
+
+                }
+            }
+        );
+
+    });
+
+
+    
+
+    app.get("/allmadon",(req,res) =>
+{
+
+    db.query("SELECT madon FROM datxe",(err,result)=>
+    {
+
+        if(err)
+        {
+            console.log(err);
+            res.json({
+
+                success:false
+            });
+        }
+        else{
+            res.json(
+                {
+                    success:true,
+                    data:result
+                }
+            );
+        }
+    }
+    );
+
 
 });
 
