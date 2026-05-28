@@ -9,6 +9,30 @@
 
     <!-- Title -->
 
+    <LinearLayout
+        android:id="@+id/layoutSuccess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp"
+        android:padding="10dp"
+        android:background="#49C34F"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập thất bại"
+            android:textColor="#FFFFFF"
+            />
+
+
+    </LinearLayout>
+
     <!-- Login text -->
     <TextView
         android:id="@+id/txtLogin"
@@ -41,7 +65,7 @@
             android:id="@+id/user_sodt"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Số điện thoại"
+            android:hint="Nhập số điện thoại"
             android:padding="10dp"
             android:textColor="#000000"
             android:textColorHint="#888888"

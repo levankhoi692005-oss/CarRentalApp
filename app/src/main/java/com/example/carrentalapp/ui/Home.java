@@ -41,7 +41,8 @@ public class Home extends AppCompatActivity {
     ArrayList<Vehicle> listsearch;
     ArrayList<Vehicle> list;
 
-    ImageView btnCart, btnMenu;
+
+    ImageView btnCart, btnMenu,btnchat;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -63,6 +64,9 @@ public class Home extends AppCompatActivity {
 
         btnMenu =
                 findViewById(R.id.btnMenu);
+
+        btnchat =
+                findViewById(R.id.btnchat);
 
         list = new ArrayList<>();
         listsearch = new ArrayList<>();
@@ -121,6 +125,18 @@ public class Home extends AppCompatActivity {
                     new Intent(
                             this,
                             Menu.class
+                    )
+            );
+
+        });
+
+
+        btnchat.setOnClickListener(v -> {
+
+            startActivity(
+                    new Intent(
+                            this,
+                            ChatAI.class
                     )
             );
 

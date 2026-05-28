@@ -16,6 +16,13 @@
         android:theme="@style/Theme.CarRentalApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.ChatAI"
+            android:exported="false" />
+        <activity
+            android:name=".adapter.ChatAIAdapter"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
+        <activity
             android:name=".ui.Vehicle_Image_View"
             android:exported="false" />
         <activity

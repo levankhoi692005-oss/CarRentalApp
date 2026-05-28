@@ -223,9 +223,9 @@ public class Cart extends AppCompatActivity {
 
                                                     object.getString("sodienthoai"),
 
-                                                    object.getString("ngaydat"),
+                                                    object.getString("ngaydat_format"),
 
-                                                    object.getString("ngaylay"),
+                                                    object.getString("ngaylay_format"),
 
                                                     object.getInt("songaythue"),
 

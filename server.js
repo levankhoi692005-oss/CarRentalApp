@@ -4,6 +4,19 @@
 
     const cors = require("cors");
 
+    const bcrypt = require("bcrypt");
+
+
+    require("dotenv").config();
+
+    const {OpenAI} = require("openai");
+const e = require("express");
+const { ChatKit } = require("openai/resources/beta.js");
+
+
+
+
+
 
     const app = express();
 
@@ -33,12 +46,21 @@
 
     });
 
+
+    const client = new OpenAI({
+
+        apiKey: process.env.GITHUB_TOKEN,
+        baseURL:"https://models.github.ai/inference"
+    }
+    );
+
     console.log("✅ MySQL Connected -- OK");
 
     // ==============================
     // TEST SERVER
     // ==============================
 
+  
     app.get("/", (req, res) => {
 
         res.send("Server OK");
@@ -49,7 +71,7 @@
     // REGISTER hhhh
     // ==============================
 
-    app.post("/register", (req, res) => {
+    app.post("/register", async (req, res) => {
 
         const {
 
@@ -67,7 +89,7 @@
 
             [phone],
 
-            (err, result) => {
+            async (err, result) => {
 
                 if(err){
 
@@ -99,6 +121,8 @@
 
                     else{
 
+                        const password_hash = await bcrypt.hash(password,10);
+
                         db.query(
 
                             "INSERT INTO users(name,phone,password) VALUES(?,?,?)",
@@ -106,7 +130,7 @@
                             [
                                 name,
                                 phone,
-                                password
+                                password_hash
                             ],
 
                             (err2, result2) => {
@@ -147,7 +171,7 @@
     // LOGIN
     // ==============================
 
-    app.post("/login", (req, res) => {
+    app.post("/login", async (req, res) => {
 
         const {
 
@@ -156,16 +180,17 @@
 
         } = req.body;
 
+        
+
         db.query(
 
-            "SELECT * FROM users WHERE phone=? AND password=?",
+            "SELECT * FROM users WHERE phone=?",
 
             [
-                phone,
-                password
+                phone
             ],
 
-            (err, result) => {
+            async (err, result) => {
 
                 if(err){
 
@@ -179,7 +204,10 @@
                 else{
 
                     if(result.length > 0){
-                        console.log("Tai khoan co id: "+phone+" da dang nhap")
+                        const password_right = await bcrypt.compare(password,result[0].password);
+                        if(password_right)
+                        {
+                            console.log("Tai khoan co id: "+result[0].id+" da dang nhap")
 
                         res.json({
 
@@ -189,6 +217,15 @@
                             name: result[0].name
 
                         });
+                        }
+                        else
+                        {
+                             res.json({
+                            success:false,
+                            message:"Mật khẩu hoặc số điện thoại không đúng"
+                        });
+                        }
+                        
 
                     }
                     else{
@@ -563,7 +600,7 @@
 
     db.query(
 
-        "SELECT * FROM datxe WHERE user_id=? ORDER BY id DESC",
+        "SELECT *, DATE_FORMAT(ngaydat, '%d:%m:%Y %H:%i:%s') AS ngaydat_format,  DATE_FORMAT(ngaylay, '%d:%m:%Y') AS ngaylay_format FROM datxe WHERE user_id=? ORDER BY id DESC",
 
         [user_id],
 
@@ -580,6 +617,8 @@
             else{
 
                 res.json(result);
+                console.log("Ket qua lay user theo order" + result.ngaydat_format);
+                console.log("Ket qua lay user theo order" + result.ngaylay_format);
 
             }
 
@@ -589,7 +628,7 @@
 
 });
 
-
+// chinh chinh sach cap nhap don hang
 
 app.put("/updateorder/:madon", (req,res) =>
 {
@@ -690,7 +729,7 @@ app.put("/updateorder/:madon", (req,res) =>
 });
 
 
-app.put("/changepassword",(req,res)=>
+app.put("/changepassword",async (req,res)=>
 {
     const  {
         user_id,
@@ -699,55 +738,76 @@ app.put("/changepassword",(req,res)=>
 
     } = req.body;
 
-    db.query(
-        'SELECT * FROM users WHERE id=? AND password=?',
-        [user_id,old_password],
-        (err,result)=>{
 
-            if(err)
+    db.query(`SELECT password FROM users WHERE id=?`,
+        [user_id],
+        async (err1,result1)=>
+        {
+
+            if(err1)
             {
-                console.log(err);
+                console.log(err1);
                 res.json({
+
                     success:false,
-                    message:"Loi server"
+                    message:"lỗi"
                 });
 
-            }else{
-                // neu khong tim thay
-                if( result.length ==0)
+
+            }
+            else
+            {
+                if(result1.length <= 0)
                 {
                     res.json({
-                        success:false,
-                        message:"Mật khẩu cũ sai"
-                    });
+
+                    success:false,
+                    message:"Không đúng mật khẩu"
+                });
 
                 }
                 else
                 {
-                    // update mat khau
-                    db.query(
 
-                        "UPDATE users SET password=? WHERE id=?",
-                        [new_password,user_id],
-                        (err2,result2)=>
-                        {
-                            if(err2)
+                    const check_password = 
+                    await bcrypt.compare(old_password,result1[0].password)
+
+                    if(check_password)
+                    {
+
+                        const new_pass = await bcrypt.hash(new_password,10);
+                        db.query(`UPDATE users SET password=? WHERE id=?`,
+                            [new_pass,user_id],
+                            async (err2,result2)=>
                             {
-                                console.log(err2);
-                                res.json({
-                                    success:false
-                                });
-                            }
-                            else{
-                                res.json({
-                                    success:true,
-                                    message:"Cập nhập mật khẩu thành công"
-                                });
-                            }
-                        }
-                    );
-                }
+                                if(err2)
+                                {
+                                    console.log(err1);
+                                    res.json({
 
+                                    success:false,
+                                    message:"Không đúng user_id"
+                                        });
+                                }
+                                else
+                                {
+                                    res.json({
+                                        success:true,
+                                        message:"Đổi mật khẩu thành công"
+                                    });
+
+                                }
+                            }
+                        );
+                    }
+                    else{
+                        res.json({
+                                        success:false,
+                                        message:"Mật khẩu không đúng"
+                                    });
+                    }
+                }
+                
             }
 
         }
@@ -801,7 +861,7 @@ app.put("/changepassword",(req,res)=>
 
         const madon = req.params.madon;
 
-        db.query("SELECT * FROM dulieuxe JOIN datxe ON dulieuxe.bienso = datxe.bienso WHERE madon=?",
+        db.query ("SELECT * , DATE_FORMAT(ngaydat, '%d/ %m/ %Y - %H:%i:%s') AS ngaydat_format,  DATE_FORMAT(ngaylay, '%d/ %m/ %Y') AS ngaylay_format FROM dulieuxe JOIN datxe ON dulieuxe.bienso = datxe.bienso WHERE madon=?",
             [madon],
             (err,result)=>
             {
@@ -833,7 +893,7 @@ app.put("/changepassword",(req,res)=>
     app.get("/allmadon",(req,res) =>
 {
 
-    db.query("SELECT madon FROM datxe",(err,result)=>
+    db.query("SELECT madon,tinhtrang, DATE_FORMAT(DATE_ADD(ngaylay, INTERVAL songaythue DAY),'%d/%m/%Y') AS ngaytraxe FROM datxe",(err,result)=>
     {
 
         if(err)
@@ -857,6 +917,392 @@ app.put("/changepassword",(req,res)=>
 
 
 });
+
+
+
+
+
+
+app.post("/chatai/:user", async (req,res)=>
+{
+
+    try
+    {
+
+        // =========================
+        // USER NAME
+        // =========================
+
+        const user_name = req.params.user;
+
+        // =========================
+        // MESSAGE
+        // =========================
+
+        const message_ai = req.body.message;
+        
+        const send_time = req.body.send_time;
+
+        // =========================
+        // CHECK EMPTY
+        // =========================
+
+        if(!message_ai || message_ai.trim()==="")
+        {
+
+            return res.json({
+
+                success:false,
+
+                answer:"Bạn chưa nhập tin nhắn"
+
+            });
+
+        }
+
+        // =========================
+        // SAVE USER MESSAGE
+        // =========================
+
+        db.query(
+
+            "INSERT INTO messages(user,message,send_time) VALUES(?,?,?)",
+
+            [
+                user_name+"_AI",
+                message_ai,
+                send_time
+            ]
+
+        );
+
+        // =========================
+        // GET VEHICLES
+        // =========================
+
+        db.query(
+
+            "SELECT * FROM dulieuxe",
+
+            (err,vehicles)=>
+            {
+
+                if(err)
+                {
+
+                    console.log(err);
+
+                    return res.json({
+
+                        success:false,
+
+                        answer:"Lỗi lấy dữ liệu xe"
+
+                    });
+
+                }
+
+                // =========================
+                // GET USER ID
+                // =========================
+
+                db.query(
+
+                    "SELECT id FROM users WHERE name=?",
+
+                    [user_name],
+
+                    (err2,result)=>
+                    {
+
+                        if(err2)
+                        {
+
+                            console.log(err2);
+
+                            return res.json({
+
+                                success:false,
+
+                                answer:"Lỗi lấy user"
+
+                            });
+
+                        }
+
+                        // =========================
+                        // CHECK USER
+                        // =========================
+
+                        if(result.length <=0)
+                        {
+
+                            return res.json({
+
+                                success:false,
+
+                                answer:"Không tìm thấy user"
+
+                            });
+
+                        }
+
+                        // =========================
+                        // USER ID
+                        // =========================
+
+                        const user_id =
+                            result[0].id;
+
+                        console.log(
+                            "Đã lấy id từ name: "
+                            +user_name+
+                            " id: "+
+                            user_id
+                        );
+
+                        // =========================
+                        // GET ORDERS
+                        // =========================
+
+                        db.query(
+
+                            "SELECT * FROM datxe WHERE user_id=?",
+
+                            [user_id],
+
+                            async (err3,orders)=>
+                            {
+
+                                if(err3)
+                                {
+
+                                    console.log(err3);
+
+                                    return res.json({
+
+                                        success:false,
+
+                                        answer:"Lỗi lấy đơn hàng"
+
+                                    });
+
+                                }
+
+                                // =========================
+                                // PROMPT
+                                // =========================
+
+                                const data_send_ai =
+                                `
+                                Bạn là AI chatbot thuê xe.
+
+                                Tôi sẽ cung cấp dữ liệu hệ thống.
+
+                                =========================
+                                THÔNG TIN CÔNG TY
+                                =========================
+
+                                Tên công ty:
+                                Công ty CP thuê xe MMT01
+
+                                Địa chỉ:
+                                Đại học công nghiệp hà nội
+
+                                Email:
+                                ctymmt01@gmail.com
+
+                                Số điện thoại:
+                                0978613522
+
+                                Chủ tịch:
+                                Lê Văn Khởi
+
+                                =========================
+                                DANH SÁCH XE
+                                =========================
+
+                                ${JSON.stringify(vehicles)}
+
+                                =========================
+                                ĐƠN HÀNG USER
+                                =========================
+
+                                ${JSON.stringify(orders)}
+
+                                =========================
+                                USER HỎI
+                                =========================
+
+                                ${message_ai}
+
+                                Hãy trả lời đúng dữ liệu hệ thống.
+                                `;
+
+                                // =========================
+                                // AI
+                                // =========================
+
+                                let response;
+
+                                try
+                                {
+
+                                    response =
+                                    await client.chat.completions.create({
+
+                                        model:"openai/gpt-4.1-mini",
+
+                                        messages:[
+
+                                            {
+
+                                                role:"system",
+
+                                                content:
+                                                "Bạn là AI chatbot thuê xe"
+
+                                            },
+
+                                            {
+
+                                                role:"user",
+
+                                                content:data_send_ai
+
+                                            }
+
+                                        ]
+
+                                    });
+
+                                }
+                                catch(aiError)
+                                {
+
+                                    console.log(aiError);
+
+                                    return res.json({
+
+                                        success:false,
+
+                                        answer:"Lỗi AI"
+
+                                    });
+
+                                }
+
+                                // =========================
+                                // ANSWER
+                                // =========================
+
+                                const answer =
+                                response.choices[0]
+                                .message.content;
+
+                                // =========================
+                                // SAVE AI MESSAGE
+                                // =========================
+
+                                db.query(
+
+                                    "INSERT INTO messages(user,message,send_time) VALUES(?,?,?)",
+
+                                    [
+                                        "AI_"+user_name,
+                                        answer,
+                                        send_time
+                                    ]
+
+                                );
+
+                                // =========================
+                                // RETURN
+                                // =========================
+
+                                return res.json({
+
+                                    success:true,
+
+                                    answer:answer
+
+                                });
+
+                            }
+
+                        );
+
+                    }
+
+                );
+
+            }
+
+        );
+
+    }
+    catch(e)
+    {
+
+        console.log(e);
+
+        return res.json({
+
+            success:false,
+
+            answer:"Lỗi server"
+
+        });
+
+    }
+
+});
+
+
+
+
+    app.get("/getmessagechat/:user_name", async (req,res)=>
+    {
+
+        const user_name = req.params.user_name;
+
+        db.query(`SELECT *, DATE_FORMAT (send_time, '%H:%i %d:%m:%Y') AS send_time_format FROM messages WHERE user IN (?,?)`,
+            [user_name+"_AI","AI_"+user_name],
+            (err,result)=>
+            {
+                if(err)
+                {
+                    console.log(err);
+                    res.json({
+                        success:false,
+                        message:"Lỗi truy xuất dữ liệu"
+                    });
+                }
+                else
+                {
+                    if(result.length <=0)
+                    {
+                        res.json({
+
+                            success:false,
+                            message:"Lịch sử chat trống"
+                        });
+                    }
+                    else
+                    {
+                        res.json({
+                            success:true,
+                            data:result
+                        });
+                    }
+                }
+            }
+        );
+
+
+    });
+
+
 
 
     // ==============================

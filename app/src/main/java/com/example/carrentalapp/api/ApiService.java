@@ -20,6 +20,113 @@ public class ApiService {
     private static final OkHttpClient client =
             new OkHttpClient();
 
+
+
+    public static void login(
+            String phone,
+            String password,
+            Callback callback
+    ) {
+        JSONObject json =
+                new JSONObject();
+        try {
+            json.put("phone", phone);
+
+            json.put("password", password);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        RequestBody body =
+
+                RequestBody.create(
+
+                        json.toString(),
+
+                        MediaType.parse(
+                                "application/json"
+                        )
+                );
+
+        Request request =
+
+                new Request.Builder()
+
+                        .url(BASE_URL + "login")
+
+                        .post(body)
+
+                        .build();
+
+        client.newCall(request)
+                .enqueue(callback);
+    }
+
+
+
+
+    public static void registerU(
+
+            String name,
+
+            String phone,
+
+            String password,
+            Callback callback
+
+    ){
+
+
+        JSONObject json =
+                new JSONObject();
+        try {
+
+
+            json.put("name", name);
+
+            json.put("phone", phone);
+
+            json.put("password", password);
+
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+        RequestBody body =
+
+                RequestBody.create(
+
+                        json.toString(),
+
+                        MediaType.parse(
+                                "application/json"
+                        )
+
+                );
+
+        Request request =
+
+                new Request.Builder()
+
+                        .url(BASE_URL + "register")
+
+                        .post(body)
+
+                        .build();
+
+        client.newCall(request)
+                .enqueue( callback);
+
+    }
+
+
+
     // GET VEHICLES
 
 
@@ -455,6 +562,56 @@ public class ApiService {
         Request request = new Request.Builder()
                 .url(BASE_URL +"allmadon")
                 .build();
+        client.newCall(request).enqueue(callback);
+
+    }
+
+
+    // api chatai
+
+    public static void messagechat(
+            String messgae_ai,
+            String user,
+            String send_time,
+            Callback callback
+    )
+    {
+        JSONObject jsonObject = new JSONObject();
+        try
+        {
+            jsonObject.put("message",messgae_ai);
+            jsonObject.put("user",user);
+            jsonObject.put("send_time",send_time);
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        RequestBody requestBody = RequestBody.create(
+                jsonObject.toString(),
+                MediaType.parse("application/json")
+        );
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+"chatai/"+user)
+                .post(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+
+    }
+
+    public static void getmessagechatai(
+        String user_name,
+        Callback callback
+    )
+    {
+        Request request = new Request.Builder()
+                .url(BASE_URL+"getmessagechat/"+user_name)
+                .build();
+
         client.newCall(request).enqueue(callback);
 
     }

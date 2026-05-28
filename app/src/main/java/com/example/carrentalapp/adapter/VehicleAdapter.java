@@ -1,5 +1,6 @@
 package com.example.carrentalapp.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,20 +10,30 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.carrentalapp.R;
+import com.example.carrentalapp.api.ApiService;
 import com.example.carrentalapp.model.Vehicle;
 import com.example.carrentalapp.ui.CustomerInfo;
 import com.example.carrentalapp.ui.DetailVehicle;
 import com.example.carrentalapp.ui.Vehicle_Image_View;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class VehicleAdapter
         extends RecyclerView.Adapter<VehicleAdapter.XeViewHolder> {
@@ -30,6 +41,10 @@ public class VehicleAdapter
     Context context;
     List<Vehicle> list;
 
+    String tinhtrang="";
+    String ngaytraxe="";
+
+    int dem=0;
     public VehicleAdapter(Context context, List<Vehicle> list) {
 
         this.context = context;
@@ -76,80 +91,164 @@ public class VehicleAdapter
 
         NumberFormat nf = NumberFormat.getInstance(new Locale("vi","VN"));
 
+
+        ApiService.getallmadon(
+                new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                        ((Activity ) context).runOnUiThread(()->
+                        {
+                            Toast.makeText(
+                                    context,
+                                    "Lỗi mạng",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+                        String result = response.body().string();
+
+                        ((Activity ) context).runOnUiThread(()->
+                        {
+
+                            try{
+                                JSONObject jsonObject =  new JSONObject(result);
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                boolean success = jsonObject.getBoolean("success");
+                                if(success)
+                                {
+                                    for (int i = 0; i<jsonArray.length();i++)
+                                    {
+                                       JSONObject object = jsonArray.getJSONObject(i);
+                                       if(object.getString("tinhtrang").equals("Đã duyệt"))
+                                       {
+                                           dem+=1;
+                                           ngaytraxe = object.getString("ngaytraxe");
+                                           return;
+
+                                       }
+                                    }
+
+                                }
+                                else
+                                {
+                                    ((Activity ) context).runOnUiThread(()->
+                                    {
+                                        Toast.makeText(
+                                                context,
+                                                "Lỗi mạng",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                                    });
+                                }
+
+
+
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        });
+
+
+
+                    }
+                }
+        );
+
         holder.txtTen.setText("Tên xe: " + xe.getTen());
         holder.txtBienSo.setText("Biển số: " + xe.getBienso());
         holder.txtGia.setText("Đơn giá: " + nf.format(xe.getGia()) +"VNĐ/Ngày");
         holder.txtSoGhe.setText("Ghế: "+xe.getSoghe());
         holder.txtnhienlieu.setText("Nhiên liệu: "+xe.getNhienlieu());
         holder.txtHopSo.setText("Hộp số: "+xe.getHopso());
+        holder.txthanthue.setText("");
 
 
-        holder.thue.setOnClickListener(v -> {
 
-            Intent intent =
-                    new Intent(
-                            context,
-                            CustomerInfo.class
-                    );
+        if(dem>0)
+        {
+            holder.thue.setEnabled(false);
+            holder.thue.setText("Đã được thuê");
+            holder.txthanthue.setText("Ngày trả xe: "+ngaytraxe);
+        }
+        else
+        {
 
-            intent.putExtra(
-                    "anhxe",
-                    xe.getHinh1()
-            );
+            holder.thue.setOnClickListener(v -> {
 
-            intent.putExtra(
-                    "tenxe",
-                    xe.getTen()
-            );
+                Intent intent =
+                        new Intent(
+                                context,
+                                CustomerInfo.class
+                        );
 
-            intent.putExtra(
-                    "gia",
-                    xe.getGia()
-            );
+                intent.putExtra(
+                        "anhxe",
+                        xe.getHinh1()
+                );
 
-            intent.putExtra(
-                    "bienso",
-                    xe.getBienso()
-            );
+                intent.putExtra(
+                        "tenxe",
+                        xe.getTen()
+                );
 
-            intent.putExtra(
-                    "mota",
-                    xe.getMota()
-            );
+                intent.putExtra(
+                        "gia",
+                        xe.getGia()
+                );
 
-            intent.putExtra(
-                    "mau",
-                    xe.getMau()
-            );
+                intent.putExtra(
+                        "bienso",
+                        xe.getBienso()
+                );
 
-            intent.putExtra(
-                    "soghe",
-                    xe.getSoghe()
-            );
+                intent.putExtra(
+                        "mota",
+                        xe.getMota()
+                );
 
-            intent.putExtra(
-                    "nhienlieu",
-                    xe.getNhienlieu()
-            );
+                intent.putExtra(
+                        "mau",
+                        xe.getMau()
+                );
 
-            intent.putExtra(
-                    "hopso",
-                    xe.getHopso()
-            );
+                intent.putExtra(
+                        "soghe",
+                        xe.getSoghe()
+                );
 
-            intent.putExtra(
-                    "congsuat",
-                    xe.getCongsuat()
-            );
+                intent.putExtra(
+                        "nhienlieu",
+                        xe.getNhienlieu()
+                );
 
-            intent.putExtra(
-                    "namsanxuat",
-                    xe.getNamsanxuat()
-            );
+                intent.putExtra(
+                        "hopso",
+                        xe.getHopso()
+                );
 
-            context.startActivity(intent);
+                intent.putExtra(
+                        "congsuat",
+                        xe.getCongsuat()
+                );
 
-        });
+                intent.putExtra(
+                        "namsanxuat",
+                        xe.getNamsanxuat()
+                );
+
+
+                context.startActivity(intent);
+
+            });
+
+        }
 
 
         holder.xemthem.setOnClickListener(v -> {
@@ -227,7 +326,8 @@ public class VehicleAdapter
         TextView
                 txtSoGhe,
                 txtHopSo,
-                txtnhienlieu;
+                txtnhienlieu,
+                txthanthue;
 
         Button thue, xemthem;
 
@@ -236,6 +336,7 @@ public class VehicleAdapter
         ) {
 
             super(itemView);
+            txthanthue =itemView.findViewById(R.id.txthanthue);
 
             img1 =
                     itemView.findViewById(R.id.imgxe1);

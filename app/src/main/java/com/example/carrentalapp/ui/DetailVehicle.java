@@ -121,7 +121,7 @@ public class DetailVehicle extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> {
 
-            startActivity(new Intent(DetailVehicle.this,Home.class));
+            finish();
 
         });
     }

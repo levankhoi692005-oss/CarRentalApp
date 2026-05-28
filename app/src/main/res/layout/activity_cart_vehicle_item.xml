@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="144dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/car" />
+             />
 
         <!-- CONTENT -->
         <LinearLayout

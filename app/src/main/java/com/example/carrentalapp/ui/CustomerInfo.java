@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.carrentalapp.R;
 import com.example.carrentalapp.api.ApiService;
+import com.example.carrentalapp.model.Messgae;
+import com.example.carrentalapp.model.show_notification;
 
 import org.json.JSONObject;
 
@@ -48,7 +53,9 @@ public class CustomerInfo extends AppCompatActivity {
             txtGia,
             txtTongTien,
             txtNgayDangKy,
-            txtGioDangKy;
+            txtGioDangKy,
+
+    notification;
 
     EditText edtHoTen,
             edtSDT,
@@ -61,6 +68,9 @@ public class CustomerInfo extends AppCompatActivity {
             edtGhiChu;
 
     RadioGroup radioThanhToan;
+
+    LinearLayout layoutSuccess;
+
 
     Button btnThue;
 
@@ -82,6 +92,10 @@ public class CustomerInfo extends AppCompatActivity {
     String ngaydat = "";
 
     String giodangky = "";
+
+
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -146,6 +160,13 @@ public class CustomerInfo extends AppCompatActivity {
                 findViewById(R.id.btnThue);
 
 
+        notification =
+                findViewById(R.id.notification);
+
+        layoutSuccess =
+                findViewById(R.id.layoutSuccess);
+
+
         // GET USER ID
 
 
@@ -204,6 +225,18 @@ public class CustomerInfo extends AppCompatActivity {
                 .into(imgXe);
 
 
+
+
+
+
+
+
+
+
+
+
+
+
         // NGÀY GIỜ HIỆN TẠI
 
 
@@ -222,6 +255,10 @@ public class CustomerInfo extends AppCompatActivity {
                         Locale.getDefault()
                 );
 
+        SimpleDateFormat sdfdatetime = new SimpleDateFormat("YYYY_MM_dd HH:mm:ss",Locale.getDefault());
+
+        sdfdatetime.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+
         sdfNgay.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
         sdfGio.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
 
@@ -230,6 +267,8 @@ public class CustomerInfo extends AppCompatActivity {
 
         giodangky =
                 sdfGio.format(new Date());
+
+        String datetime = sdfdatetime.format(new Date());
 
         txtNgayDangKy.setText(
                 ngaydat
@@ -428,6 +467,15 @@ public class CustomerInfo extends AppCompatActivity {
                     .toString()
                     .isEmpty()){
 
+
+                show_notification.show_noti(
+                        "Nhập đầy đủ thông tin",
+                        layoutSuccess,
+                        notification,
+                        CustomerInfo.this,
+                        "messing"
+                );
+
                 Toast.makeText(
 
                         this,
@@ -488,7 +536,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                     sdt,
 
-                    ngaydat,
+                    datetime,
 
                     ngaylay,
 
@@ -539,6 +587,16 @@ public class CustomerInfo extends AppCompatActivity {
                                         String madon =
                                                 object.getString("madon");
 
+
+
+                                        show_notification.show_noti(
+                                                "Đặt xe thành công",
+                                                layoutSuccess,
+                                                notification,
+                                                CustomerInfo.this,
+                                                "success"
+                                        );
+
                                         Toast.makeText(
 
                                                 CustomerInfo.this,
@@ -555,6 +613,14 @@ public class CustomerInfo extends AppCompatActivity {
                                     }
                                     else{
 
+
+                                        show_notification.show_noti(
+                                                "Đặt xe thất bại",
+                                                layoutSuccess,
+                                                notification,
+                                                CustomerInfo.this,
+                                                "error"
+                                        );
                                         Toast.makeText(
 
                                                 CustomerInfo.this,
@@ -592,6 +658,8 @@ public class CustomerInfo extends AppCompatActivity {
         });
 
     }
+
+
 
 
 

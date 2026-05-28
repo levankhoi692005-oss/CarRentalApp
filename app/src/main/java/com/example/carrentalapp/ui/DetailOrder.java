@@ -153,7 +153,7 @@ public class DetailOrder extends AppCompatActivity {
         NumberFormat nf = NumberFormat.getInstance(new Locale("vi","VN"));
 
        String madonIntent = getIntent().getStringExtra("madon");
-//
+
 
 
         ApiService.getdetailorder(
@@ -173,202 +173,206 @@ public class DetailOrder extends AppCompatActivity {
 
                         String result = response.body().string();
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            Boolean success = jsonObject.getBoolean("success");
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            JSONObject object = jsonArray.getJSONObject(0);
-
-                            if(success) {
-
-                                 madon =
-                                        object.getString("madon");
-
-                                String bienso =
-                                        object.getString("bienso");
-
-                                 hoten =
-                                        object.getString("hoten");
-
-                                 sodienthoai =
-                                        object.getString("sodienthoai");
-
-                                String ngaydat =
-                                        object.getString("ngaydat");
-
-                                String ngaylay =
-                                        object.getString("ngaylay");
-
-                                int songaythue =
-                                        object.getInt("songaythue");
-
-                                int dongia =
-                                        object.getInt("dongia");
-
-                                int thanhtien =
-                                        object.getInt("thanhtien");
-
-                                String thanhtoantext =
-                                        object.getString("thanhtoan");
-
-                                String tinhtrang =
-                                        object.getString("tinhtrang");
-
-                                String ghichu =
-                                        object.getString("ghichu");
-
-                                int user_id =
-                                        object.getInt("user_id");
-
-                                String tenxe =
-                                        object.getString("tenxe");
-
-                                String diachikh =
-                                        object.getString("diachikh");
-
-                                String diachinhan =
-                                        object.getString("diachinhan");
-
-                                String hinhxe1 =
-                                        object.getString("hinhxe1");
-
-                                String hinhxe2 =
-                                        object.getString("hinhxe2");
-
-                                String mota =
-                                        object.getString("mota");
-
-                                String mau =
-                                        object.getString("mau");
-
-                                int soghe =
-                                        object.getInt("soghe");
-
-                                int namsanxuat =
-                                        object.getInt("namsanxuat");
-
-                                String hopso =
-                                        object.getString("hopso");
-
-                                String congsuat =
-                                        object.getString("congsuat");
-
-                                String nhienlieu =
-                                        object.getString("nhienlieu");
-
-
-                                thongtin.setText(
-                                        "Thông tin đơn " + madon
-                                );
-
-                                txtMaDon.setText(
-                                        "Mã đơn: " + madon
-                                );
-
-                                txtTenKh.setText(
-                                        "Họ và tên: " + hoten
-                                );
-
-                                txtSdtKh.setText(
-                                        "Số điện thoại: " + sodienthoai
-                                );
-
-                                txtDiaChiKh.setText(
-                                        "Địa chỉ: " + diachikh
-                                );
-
-                                txtTenXe.setText(
-                                        tenxe
-                                );
-
-                                txtBienSo.setText(
-                                        "Biển số: " + bienso
-                                );
-
-                                txtNamSX.setText(
-                                        "Năm sản xuất: " + namsanxuat
-                                );
-
-                                txtMauXe.setText(
-                                        "Màu xe: " + mau
-                                );
-
-                                txtHopSo.setText(
-                                        "Hộp số: " + hopso
-                                );
-
-                                txtCongSuat.setText(
-                                        "Công suất: " + congsuat
-                                );
-
-                                txtSoGhe.setText(
-                                        "Số ghế: " + soghe
-                                );
-
-                                txtNhienLieu.setText(
-                                        "Nhiên liệu: " + nhienlieu
-                                );
-
-                                txtGia.setText(
-                                        "Đơn giá: "
-                                                + nf.format(dongia)
-                                                + " VNĐ/ngày"
-                                );
-
-                                txtNgayDangKy.setText(
-                                        "Ngày đăng ký: " + ngaydat
-                                );
-
-                                txtNgayLay.setText(
-                                        "Ngày lấy xe: " + ngaylay
-                                );
-
-                                txtsongaythue.setText(
-                                        "Số ngày thuê: "
-                                                + songaythue
-                                                + " ngày"
-                                );
-
-                                txtDiaChiLay.setText(
-                                        "Địa chỉ nhận: "
-                                                + diachinhan
-                                );
-
-                                txtTongTien.setText(
-                                        "Tổng tiền: "
-                                                + nf.format(thanhtien)
-                                                + " VNĐ"
-                                );
-
-                                txtLoaiThanhToan.setText(
-                                        "Phương thức: "
-                                                + thanhtoantext
-                                );
-
-                                txtTinhTrang.setText(
-                                        "Tình trạng: "
-                                                + tinhtrang
-                                );
-
-                                txtghichu.setText(
-                                        "Ghi chú: "
-                                                + ghichu
-                                );
-                            }
-                            else
-                            {
-                                Toast.makeText(
-                                        DetailOrder.this,
-                                        "Lỗi server",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            }
-
-                        }
-                        catch (Exception e)
+                        runOnUiThread(()->
                         {
-                            e.printStackTrace();
-                        }
+                            try {
+                                JSONObject jsonObject = new JSONObject(result);
+                                Boolean success = jsonObject.getBoolean("success");
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                JSONObject object = jsonArray.getJSONObject(0);
+
+                                if(success) {
+
+                                    madon =
+                                            object.getString("madon");
+
+                                    String bienso =
+                                            object.getString("bienso");
+
+                                    hoten =
+                                            object.getString("hoten");
+
+                                    sodienthoai =
+                                            object.getString("sodienthoai");
+
+                                    String ngaydat =
+                                            object.getString("ngaydat_format");
+
+                                    String ngaylay =
+                                            object.getString("ngaylay_format");
+
+                                    int songaythue =
+                                            object.getInt("songaythue");
+
+                                    int dongia =
+                                            object.getInt("dongia");
+
+                                    int thanhtien =
+                                            object.getInt("thanhtien");
+
+                                    String thanhtoantext =
+                                            object.getString("thanhtoan");
+
+                                    String tinhtrang =
+                                            object.getString("tinhtrang");
+
+                                    String ghichu =
+                                            object.getString("ghichu");
+
+                                    int user_id =
+                                            object.getInt("user_id");
+
+                                    String tenxe =
+                                            object.getString("tenxe");
+
+                                    String diachikh =
+                                            object.getString("diachikh");
+
+                                    String diachinhan =
+                                            object.getString("diachinhan");
+
+                                    String hinhxe1 =
+                                            object.getString("hinhxe1");
+
+                                    String hinhxe2 =
+                                            object.getString("hinhxe2");
+
+                                    String mota =
+                                            object.getString("mota");
+
+                                    String mau =
+                                            object.getString("mau");
+
+                                    int soghe =
+                                            object.getInt("soghe");
+
+                                    int namsanxuat =
+                                            object.getInt("namsanxuat");
+
+                                    String hopso =
+                                            object.getString("hopso");
+
+                                    String congsuat =
+                                            object.getString("congsuat");
+
+                                    String nhienlieu =
+                                            object.getString("nhienlieu");
+
+
+                                    thongtin.setText(
+                                            "Thông tin đơn " + madon
+                                    );
+
+                                    txtMaDon.setText(
+                                            "Mã đơn: " + madon
+                                    );
+
+                                    txtTenKh.setText(
+                                            "Họ và tên: " + hoten
+                                    );
+
+                                    txtSdtKh.setText(
+                                            "Số điện thoại: " + sodienthoai
+                                    );
+
+                                    txtDiaChiKh.setText(
+                                            "Địa chỉ: " + diachikh
+                                    );
+
+                                    txtTenXe.setText(
+                                            tenxe
+                                    );
+
+                                    txtBienSo.setText(
+                                            "Biển số: " + bienso
+                                    );
+
+                                    txtNamSX.setText(
+                                            "Năm sản xuất: " + namsanxuat
+                                    );
+
+                                    txtMauXe.setText(
+                                            "Màu xe: " + mau
+                                    );
+
+                                    txtHopSo.setText(
+                                            "Hộp số: " + hopso
+                                    );
+
+                                    txtCongSuat.setText(
+                                            "Công suất: " + congsuat
+                                    );
+
+                                    txtSoGhe.setText(
+                                            "Số ghế: " + soghe
+                                    );
+
+                                    txtNhienLieu.setText(
+                                            "Nhiên liệu: " + nhienlieu
+                                    );
+
+                                    txtGia.setText(
+                                            "Đơn giá: "
+                                                    + nf.format(dongia)
+                                                    + " VNĐ/ngày"
+                                    );
+
+                                    txtNgayDangKy.setText(
+                                            "Ngày đăng ký: " + ngaydat
+                                    );
+
+                                    txtNgayLay.setText(
+                                            "Ngày lấy xe: " + ngaylay
+                                    );
+
+                                    txtsongaythue.setText(
+                                            "Số ngày thuê: "
+                                                    + songaythue
+                                                    + " ngày"
+                                    );
+
+                                    txtDiaChiLay.setText(
+                                            "Địa chỉ nhận: "
+                                                    + diachinhan
+                                    );
+
+                                    txtTongTien.setText(
+                                            "Tổng tiền: "
+                                                    + nf.format(thanhtien)
+                                                    + " VNĐ"
+                                    );
+
+                                    txtLoaiThanhToan.setText(
+                                            "Phương thức: "
+                                                    + thanhtoantext
+                                    );
+
+                                    txtTinhTrang.setText(
+                                            "Tình trạng: "
+                                                    + tinhtrang
+                                    );
+
+                                    txtghichu.setText(
+                                            "Ghi chú: "
+                                                    + ghichu
+                                    );
+                                }
+                                else
+                                {
+                                    Toast.makeText(
+                                            DetailOrder.this,
+                                            "Lỗi server",
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                }
+
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        });
+
 
 
                     }

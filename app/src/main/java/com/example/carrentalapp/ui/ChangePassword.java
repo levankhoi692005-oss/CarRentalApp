@@ -103,11 +103,22 @@ public class ChangePassword extends AppCompatActivity {
                                                 editor.putString("password", new_password);
                                                 editor.apply();
 
-                                                mkhientai.setText("Nhập mật khẩu hiện tại");
-                                                mkmoi.setText("NHập mật khẩu mới");
-                                                mkxacthuc.setText("Xác nhận mật khẩu mới");
+                                                mkxacthuc.setText("");
+                                                mkmoi.setText("");
+                                                mkhientai.setText("");
+
+                                                mkhientai.setHint("Nhập mật khẩu hiện tại");
+                                                mkmoi.setHint("NHập mật khẩu mới");
+                                                mkxacthuc.setHint("Xác nhận mật khẩu mới");
 
                                             } else {
+                                                mkxacthuc.setText("");
+                                                mkmoi.setText("");
+                                                mkhientai.setText("");
+
+                                                mkhientai.setHint("Nhập mật khẩu hiện tại");
+                                                mkmoi.setHint("NHập mật khẩu mới");
+                                                mkxacthuc.setHint("Xác nhận mật khẩu mới");
                                                 Toast.makeText(
                                                         ChangePassword.this,
                                                         message,

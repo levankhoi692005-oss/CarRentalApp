@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.carrentalapp.R;
+import com.example.carrentalapp.api.ApiService;
 
 import org.json.JSONObject;
 
@@ -33,11 +34,6 @@ public class Register extends AppCompatActivity {
 
     TextView btnLogin;
 
-    OkHttpClient client =
-            new OkHttpClient();
-
-    String BASE_URL =
-            "https://jonnie-unpoetic-coldly.ngrok-free.dev/";
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -185,146 +181,111 @@ public class Register extends AppCompatActivity {
 
     ){
 
-        try {
+        ApiService.registerU(
+                name,
+                phone,
+                password,
 
-            JSONObject json =
-                    new JSONObject();
+                new Callback() {
 
-            json.put("name", name);
+                    @Override
+                    public void onFailure(
+                            Call call,
+                            java.io.IOException e
+                    ) {
 
-            json.put("phone", phone);
+                        runOnUiThread(() ->
 
-            json.put("password", password);
+                                Toast.makeText(
 
-            RequestBody body =
+                                        Register.this,
 
-                    RequestBody.create(
+                                        e.toString(),
 
-                            json.toString(),
+                                        Toast.LENGTH_LONG
 
-                            MediaType.parse(
-                                    "application/json"
-                            )
+                                ).show()
 
-                    );
+                        );
 
-            Request request =
+                    }
 
-                    new Request.Builder()
+                    @Override
+                    public void onResponse(
+                            Call call,
+                            Response response
+                    ) throws java.io.IOException {
 
-                            .url(BASE_URL + "register")
+                        String result =
+                                response.body().string();
 
-                            .post(body)
+                        runOnUiThread(() -> {
 
-                            .build();
+                            try {
 
-            client.newCall(request)
-                    .enqueue(new Callback() {
+                                JSONObject object =
+                                        new JSONObject(result);
 
-                        @Override
-                        public void onFailure(
-                                Call call,
-                                java.io.IOException e
-                        ) {
+                                boolean success =
+                                        object.getBoolean("success");
 
-                            runOnUiThread(() ->
+                                if(success){
 
                                     Toast.makeText(
 
                                             Register.this,
 
-                                            e.toString(),
+                                            "Đăng ký thành công",
 
-                                            Toast.LENGTH_LONG
+                                            Toast.LENGTH_SHORT
 
-                                    ).show()
+                                    ).show();
 
-                            );
+                                    startActivity(
 
-                        }
+                                            new Intent(
 
-                        @Override
-                        public void onResponse(
-                                Call call,
-                                Response response
-                        ) throws java.io.IOException {
+                                                    Register.this,
 
-                            String result =
-                                    response.body().string();
+                                                    Login.class
 
-                            runOnUiThread(() -> {
+                                            )
 
-                                try {
+                                    );
 
-                                    JSONObject object =
-                                            new JSONObject(result);
-
-                                    boolean success =
-                                            object.getBoolean("success");
-
-                                    if(success){
-
-                                        Toast.makeText(
-
-                                                Register.this,
-
-                                                "Đăng ký thành công",
-
-                                                Toast.LENGTH_SHORT
-
-                                        ).show();
-
-                                        startActivity(
-
-                                                new Intent(
-
-                                                        Register.this,
-
-                                                        Login.class
-
-                                                )
-
-                                        );
-
-                                        finish();
-
-                                    }
-                                    else{
-
-                                        String message =
-                                                object.getString("message");
-
-                                        Toast.makeText(
-
-                                                Register.this,
-
-                                                message,
-
-                                                Toast.LENGTH_SHORT
-
-                                        ).show();
-
-                                    }
+                                    finish();
 
                                 }
-                                catch (Exception e){
+                                else{
 
-                                    e.printStackTrace();
+                                    String message =
+                                            object.getString("message");
+
+                                    Toast.makeText(
+
+                                            Register.this,
+
+                                            message,
+
+                                            Toast.LENGTH_SHORT
+
+                                    ).show();
 
                                 }
 
-                            });
+                            }
+                            catch (Exception e){
 
-                        }
+                                e.printStackTrace();
 
-                    });
+                            }
 
-        }
-        catch (Exception e){
+                        });
 
-            e.printStackTrace();
+                    }
 
-        }
+                });
+
 
     }
 
