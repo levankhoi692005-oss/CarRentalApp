@@ -46,6 +46,8 @@ public class Cart extends AppCompatActivity {
 
     OrderAdapter adapter;
 
+    LinearLayout layoutchat;
+
 
     int userId;
 
@@ -76,6 +78,9 @@ public class Cart extends AppCompatActivity {
 
         recyclerOrder =
                 findViewById(R.id.recyclerOrder);
+
+        layoutchat =
+                findViewById(R.id.layoutchat);
 
 
 
@@ -295,6 +300,19 @@ public class Cart extends AppCompatActivity {
             );
 
         });
+
+
+        layoutchat.setOnClickListener(v -> {
+
+            startActivity(
+                    new Intent(
+                            this,
+                            ChatAI.class
+                    )
+            );
+
+        });
+
 
         btnMenu.setOnClickListener(v -> {
 

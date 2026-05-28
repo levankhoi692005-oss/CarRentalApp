@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.carrentalapp.R;
 import com.example.carrentalapp.api.ApiService;
+import com.example.carrentalapp.model.show_notification;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +35,9 @@ public class ChangePassword extends AppCompatActivity {
 
     ImageView imgthoat;
     EditText mkhientai,mkmoi,mkxacthuc;
-    TextView capnhap;
+    TextView capnhap,notification;
+    LinearLayout layoutSuccess;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,9 @@ public class ChangePassword extends AppCompatActivity {
         mkxacthuc = findViewById(R.id.mkxacthuc);
 
         capnhap = findViewById(R.id.capnhap);
+
+        notification = findViewById(R.id.notification);
+        layoutSuccess = findViewById(R.id.layoutSuccess);
 
 
         SharedPreferences sharedPreferences = getSharedPreferences("USER_FILE",MODE_PRIVATE);
@@ -93,11 +100,15 @@ public class ChangePassword extends AppCompatActivity {
                                             String message = object.getString("message");
 
                                             if (success) {
-                                                Toast.makeText(
+
+                                                show_notification.show_noti(
+                                                        "Đổi mật khẩu thành công",
+                                                        layoutSuccess,
+                                                        notification,
                                                         ChangePassword.this,
-                                                        message,
-                                                        Toast.LENGTH_SHORT
-                                                ).show();
+                                                        "success"
+
+                                                );
 
                                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                                 editor.putString("password", new_password);
@@ -119,11 +130,14 @@ public class ChangePassword extends AppCompatActivity {
                                                 mkhientai.setHint("Nhập mật khẩu hiện tại");
                                                 mkmoi.setHint("NHập mật khẩu mới");
                                                 mkxacthuc.setHint("Xác nhận mật khẩu mới");
-                                                Toast.makeText(
+                                                show_notification.show_noti(
+                                                        "Đổi mật không thành công",
+                                                        layoutSuccess,
+                                                        notification,
                                                         ChangePassword.this,
-                                                        message,
-                                                        Toast.LENGTH_SHORT
-                                                ).show();
+                                                        "error"
+
+                                                );
                                             }
 
 
@@ -148,7 +162,7 @@ public class ChangePassword extends AppCompatActivity {
         imgthoat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ChangePassword.this,Menu.class));
+                finish();
             }
         });
 

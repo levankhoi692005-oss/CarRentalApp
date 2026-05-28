@@ -220,10 +220,10 @@ public class AdminApproval extends AppCompatActivity {
                                             object.getString("sodienthoai");
 
                                     String ngaydat =
-                                            object.getString("ngaydat");
+                                            object.getString("ngaydat_format");
 
                                     String ngaylay =
-                                            object.getString("ngaylay");
+                                            object.getString("ngaylay_format");
 
                                     int songaythue =
                                             object.getInt("songaythue");

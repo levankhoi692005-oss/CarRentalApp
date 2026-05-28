@@ -7,6 +7,7 @@
     android:background="#E2D4D4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.ChatAI">
 
 
@@ -19,6 +20,7 @@
         android:orientation="horizontal"
         android:paddingTop="15dp"
         android:paddingBottom="5dp"
+        android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +38,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chat AI"
+            android:text="Chatbot AI"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -48,8 +50,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:paddingStart="15dp"
-        android:paddingTop="15dp"
-
         app:layout_constraintBottom_toTopOf="@+id/inputmessgae"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +68,6 @@
 
         android:paddingTop="6dp"
         android:paddingBottom="8dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

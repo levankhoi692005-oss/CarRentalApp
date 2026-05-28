@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,8 @@ public class Menu extends AppCompatActivity {
     TextView hoten,id,kiemtra,capnhap,doimk,chinhsach,
             quatang,dangxuat;
     ImageView home,cart,menu,back;
+
+    LinearLayout layoutchat;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,8 @@ public class Menu extends AppCompatActivity {
         cart = findViewById(R.id.btnCart1);
         menu = findViewById(R.id.btnMenu1);
         back = findViewById(R.id.img6);
+        layoutchat =
+                findViewById(R.id.layoutchat);
 
 
         SharedPreferences sharedPreferences =
@@ -108,6 +113,17 @@ public class Menu extends AppCompatActivity {
                 Intent intent = new Intent(Menu.this, Login.class);
                 startActivity(intent);
             }
+        });
+
+        layoutchat.setOnClickListener(v -> {
+
+            startActivity(
+                    new Intent(
+                            this,
+                            ChatAI.class
+                    )
+            );
+
         });
 
 
