@@ -6,15 +6,21 @@
 
     const bcrypt = require("bcrypt");
 
+    const crypto = require("crypto");
 
     require("dotenv").config();
 
     const {OpenAI} = require("openai");
-const e = require("express");
-const { ChatKit } = require("openai/resources/beta.js");
+
+    const mailer = require("nodemailer");
 
 
 
+
+
+
+    const secret_key = "12345678901234567890123456789012";
+    const IV_length = 16;
 
 
 
@@ -53,6 +59,30 @@ const { ChatKit } = require("openai/resources/beta.js");
         baseURL:"https://models.github.ai/inference"
     }
     );
+
+
+
+    const transporter = mailer.createTransport({
+
+        service:"gmail",
+        auth:{
+            user:'levankhoi060905@gmail.com',
+            pass:'jfquyladjsspdtqa'
+        }
+    });
+
+    async function sendemail(to, subject, html) {
+
+    const info = await transporter.sendMail({
+        from: '"Công ty ABC" <levankhoi060905@gmail.com>',
+        to: to,
+        subject: subject,
+        html: html
+    });
+
+    return info;
+}
+
 
     console.log("✅ MySQL Connected -- OK");
 
@@ -893,7 +923,7 @@ app.put("/changepassword",async (req,res)=>
     app.get("/allmadon",(req,res) =>
 {
 
-    db.query("SELECT madon,tinhtrang, DATE_FORMAT(DATE_ADD(ngaylay, INTERVAL songaythue DAY),'%d/%m/%Y') AS ngaytraxe FROM datxe",(err,result)=>
+    db.query("SELECT madon,tinhtrang,bienso, DATE_FORMAT(DATE_ADD(ngaylay, INTERVAL songaythue DAY),'%d/%m/%Y') AS ngaytraxe FROM datxe",(err,result)=>
     {
 
         if(err)
@@ -1302,6 +1332,297 @@ app.post("/chatai/:user", async (req,res)=>
 
     });
 
+
+    app.put("/update_profile/:id", (req,res)=>
+    {
+
+        const id = req.params.id;
+
+        const  {
+             name,
+             gender,
+             street_address,
+             email,
+             phone,
+             birthday,
+             national_id,
+             license_number,
+             license_class,
+             license_expiry
+        }= req.body;
+
+        
+        db.query(`UPDATE users SET name=?,
+            gender=?,
+            street_address=?,
+            email=?,
+             phone=?,
+             birthday=?,
+             national_id=?,
+             driver_license_number=?,
+             driver_license_class=?,
+             driver_license_expiry=?
+             WHERE id=?
+            
+            `,
+        [name,
+             gender,
+             encrypt(street_address),
+             encrypt(email),
+             phone,
+             birthday,
+             encrypt(national_id),
+             encrypt(license_number),
+             license_class,
+             license_expiry,
+            id],
+            (err,result)=>
+            {
+
+                if(err)
+                {
+                    console.log(err);
+                    res.json({
+                        success:false
+                    });
+                }
+                else
+                {
+                    res.json({
+                        success:true
+                    });
+                }
+            });
+
+
+
+    });
+
+
+
+    app.get("/get_user_profile/:id", (req,res)=>
+    {
+
+        const user_id = req.params.id;
+
+        db.query(
+            `SELECT name,
+             gender,
+             street_address,
+             email,
+             phone,
+             birthday,
+             national_id,
+             driver_license_number,
+             driver_license_class,
+             driver_license_expiry,
+             DATE_FORMAT(birthday, '%d/%m/%Y') AS birthday_format,
+             DATE_FORMAT(driver_license_expiry, '%d/%m/%Y') AS license_expiry_format
+             FROM users WHERE id=?`,
+             [user_id],
+             (err,result)=>
+             {
+                if(err)
+                {
+                    console.log(err);
+                    res.json({
+
+                        success:false
+                    });
+                }
+                else
+                {
+                    if(result.length>0)
+                    {
+
+                        result[0].national_id = decrypt(result[0].national_id);
+                         result[0].street_address = decrypt(result[0].street_address);
+                          result[0].email = decrypt(result[0].email);
+                           result[0].driver_license_number = decrypt(result[0].driver_license_number);
+
+                    }
+                    res.json({
+                        success:true,
+                        data:result
+                    });
+                    
+                }
+
+             }
+
+        );
+
+    });
+
+
+    
+
+    function encrypt(text)
+    {
+
+        const iv = crypto.randomBytes(IV_length);
+        const cipher = crypto.createCipheriv(
+            "aes-256-cbc",
+            Buffer.from(secret_key),
+            iv
+        );
+
+        let encrypted = cipher.update(
+            text,
+            "utf8",
+            "hex"
+        );
+
+        encrypted+= cipher.final("hex");
+
+        return iv.toString("hex") +":"+encrypted;
+
+        
+    }
+
+
+    function decrypt(text)
+    {
+
+        const parts = text.split(":");
+        const iv = Buffer.from(parts[0],"hex");
+        const encrypted_text = parts[1];
+
+
+        const decipher = crypto.createDecipheriv(
+            "aes-256-cbc",
+            Buffer.from(secret_key),
+            iv
+        );
+
+        let decrypted = decipher.update(
+            encrypted_text,
+            "hex",
+            "utf8"
+        );
+
+
+        decrypted += decipher.final("utf8");
+
+        return decrypted;
+
+    }
+
+
+
+
+     app.get("/send_email/:madon", (req,res)=>
+    {
+
+        const ma_don = req.params.madon;
+
+        db.query(
+            `SELECT * FROM users JOIN datxe ON users.id = datxe.user_id WHERE madon=?`,
+            [ma_don],
+           async  (err,result)=>{
+
+                if(err)
+                {
+                    console.log(err);
+                    res.json({
+                        success:false
+                    });
+                }
+                else
+                {
+                    console.log(decrypt(result[0].email));
+                    if(result.length <=0)
+                    {
+                       return res.json({
+                            success:false,
+                            message:"Không tìm thấy"
+                        });
+                    }
+                    else
+                    {
+                        try
+                        {
+
+                             const email_user = decrypt(result[0].email);
+                        if(result[0].tinhtrang === "Đã từ chối")
+                        {
+                            await sendemail(email_user,
+                            "Xác nhận thuê xe",
+                            `
+                                <h2>Đặt xe không thành công</h2>
+
+                                <p>Mã đơn: ${result[0].madon}</p>
+
+                                <p>Khách hàng: ${result[0].hoten}</p>
+
+                                <p>Số điện thoại: ${result[0].sodienthoai}</p>
+
+                                <p>Xe thuê: ${result[0].tenxe}</p>
+
+                                <p>Ngày đăng ký: ${result[0].ngaydat}</p>
+
+                                <p>Ngày nhận xe: ${result[0].ngaylay}</p>
+
+                                <p>Số ngày thuê: ${result[0].songaythue}</p>
+
+                                <p>Tổng tiền: ${result[0].thanhtien} VNĐ</p>
+                                `
+
+                        );
+
+                        }else  if(result[0].tinhtrang === "Đã duyệt")
+                        {
+                            await sendemail(email_user,
+                            "Xác nhận thuê xe",
+                            `
+                                <h2>Đặt xe thành công</h2>
+
+                                <p>Mã đơn: ${result[0].madon}</p>
+
+                                <p>Khách hàng: ${result[0].hoten}</p>
+
+                                <p>Số điện thoại: ${result[0].sodienthoai}</p>
+
+                                <p>Xe thuê: ${result[0].tenxe}</p>
+
+                                <p>Ngày đăng ký: ${result[0].ngaydat}</p>
+
+                                <p>Ngày nhận xe: ${result[0].ngaylay}</p>
+
+                                <p>Số ngày thuê: ${result[0].songaythue}</p>
+
+                                <p>Tổng tiền: ${result[0].thanhtien} VNĐ</p>
+                                `
+
+                        );
+                        }
+
+                        
+
+                        return res.json({
+                            success:true
+                        });
+
+
+                        }
+                        catch(e)
+                        {
+                            console.log(e);
+                            return res.json({
+                        success: false,
+                        message: e.message
+                         });
+                        }
+
+                       
+                    }
+                }
+            }
+        );
+
+
+
+    });
 
 
 

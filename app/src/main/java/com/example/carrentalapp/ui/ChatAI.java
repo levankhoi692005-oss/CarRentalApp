@@ -221,7 +221,7 @@ public class ChatAI extends AppCompatActivity {
                             new Messgae(
                                     user_name+"_AI",
                                     message_ai,
-                                    getdatetime()
+                                    getdatetime_interface()
                             );
 
                     list.add(userMessage);
@@ -272,7 +272,7 @@ public class ChatAI extends AppCompatActivity {
                                                 Messgae messgae = new Messgae(
                                                         "AI_"+user_name,
                                                         jsonObject.getString("answer"),
-                                                        getdatetime()
+                                                        getdatetime_interface()
                                                 );
 
 
@@ -304,15 +304,6 @@ public class ChatAI extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
-
-
 
 
 
@@ -365,6 +356,15 @@ public class ChatAI extends AppCompatActivity {
     String getdatetime()
     {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY_MM_dd HH:mm:ss",Locale.getDefault());
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
+        String send_time = simpleDateFormat.format(new Date());
+        return send_time;
+    }
+
+
+    String getdatetime_interface()
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm dd:MM:YYYY",Locale.getDefault());
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
         String send_time = simpleDateFormat.format(new Date());
         return send_time;

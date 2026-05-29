@@ -9,12 +9,16 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +35,11 @@ import com.example.carrentalapp.model.show_notification;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -60,12 +67,16 @@ public class CustomerInfo extends AppCompatActivity {
     EditText edtHoTen,
             edtSDT,
             edtNgayLay,
-            edtSoNgay,
 
-            edtdiachikh,
 
-            edtdiachinhan,
-            edtGhiChu;
+    edtSoNgay,
+            edtGhiChu,
+            txtsonha2,
+                    txtsonha1;
+
+    LinearLayout edtdiachinhan,
+
+    edtdiachikh;
 
     RadioGroup radioThanhToan;
 
@@ -77,8 +88,6 @@ public class CustomerInfo extends AppCompatActivity {
     OkHttpClient client =
             new OkHttpClient();
 
-    String BASE_URL =
-            "https://jonnie-unpoetic-coldly.ngrok-free.dev/";
 
     int gia = 0;
 
@@ -88,13 +97,30 @@ public class CustomerInfo extends AppCompatActivity {
 
     int user_id = -1;
 
-    String tenxe="";
+    String tenxe = "";
     String ngaydat = "";
 
     String giodangky = "";
+    String province = "";
+    String district = "";
+    String ward = "";
+
+    String diachikh ="",
+            diachinhan="";
 
 
 
+    Spinner spProvince,
+            spDistrict,
+            spWard,
+            spProvince1,
+            spDistrict1,
+            spWard1;
+
+    String str_xa = "";
+    String str_huyen = "";
+
+    String str_tinh = "";
 
 
     @SuppressLint("MissingInflatedId")
@@ -104,9 +130,14 @@ public class CustomerInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-
         setContentView(R.layout.activity_customer_info);
 
+
+        txtsonha2 =
+                findViewById(R.id.txtsonha2);
+
+        txtsonha1 =
+                findViewById(R.id.txtsonha1);
 
         imgXe =
                 findViewById(R.id.imgXe);
@@ -167,6 +198,16 @@ public class CustomerInfo extends AppCompatActivity {
                 findViewById(R.id.layoutSuccess);
 
 
+        spProvince = findViewById(R.id.spinnerProvince);
+        spDistrict = findViewById(R.id.spinnerDistrict);
+        spWard = findViewById(R.id.spinnerWard);
+
+
+        spProvince1 = findViewById(R.id.spinnerProvince1);
+        spDistrict1 = findViewById(R.id.spinnerDistrict1);
+        spWard1 = findViewById(R.id.spinnerWard1);
+
+
         // GET USER ID
 
 
@@ -192,7 +233,7 @@ public class CustomerInfo extends AppCompatActivity {
         String anhxe =
                 intent.getStringExtra("anhxe");
 
-         tenxe =
+        tenxe =
                 intent.getStringExtra("tenxe");
 
         String bienso =
@@ -224,25 +265,7 @@ public class CustomerInfo extends AppCompatActivity {
                 .load(anhxe)
                 .into(imgXe);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         // NGÀY GIỜ HIỆN TẠI
-
-
-
-
-
         SimpleDateFormat sdfNgay =
                 new SimpleDateFormat(
                         "yyyy-MM-dd",
@@ -255,7 +278,7 @@ public class CustomerInfo extends AppCompatActivity {
                         Locale.getDefault()
                 );
 
-        SimpleDateFormat sdfdatetime = new SimpleDateFormat("YYYY_MM_dd HH:mm:ss",Locale.getDefault());
+        SimpleDateFormat sdfdatetime = new SimpleDateFormat("YYYY_MM_dd HH:mm:ss", Locale.getDefault());
 
         sdfdatetime.setTimeZone(TimeZone.getTimeZone("Asia/Ho_Chi_Minh"));
 
@@ -308,7 +331,7 @@ public class CustomerInfo extends AppCompatActivity {
                             Editable s
                     ) {
 
-                        if(!s.toString().isEmpty()){
+                        if (!s.toString().isEmpty()) {
 
                             songaythue =
                                     Integer.parseInt(
@@ -325,8 +348,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                             );
 
-                        }
-                        else{
+                        } else {
 
                             txtTongTien.setText(
                                     "0 VND"
@@ -404,16 +426,13 @@ public class CustomerInfo extends AppCompatActivity {
                 Date datedat = sdf.parse(ngaydat);
 
                 dp.getDatePicker().setMinDate(
-                        datedat.getTime() +86400000
+                        datedat.getTime() + 86400000
                 );
 
 
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
 
             dp.show();
@@ -423,6 +442,8 @@ public class CustomerInfo extends AppCompatActivity {
 
         // BUTTON THUÊ
 
+        get_tinh(spProvince,spDistrict,spWard);
+       get_tinh(spProvince1,spDistrict1,spWard1);
 
         btnThue.setOnClickListener(v -> {
 
@@ -445,27 +466,38 @@ public class CustomerInfo extends AppCompatActivity {
                     edtGhiChu.getText()
                             .toString()
                             .trim();
-
+            String sonha1 = txtsonha1.getText().toString().trim();
+            String sonha2 = txtsonha2.getText().toString().trim();
             String diachikh =
-                    edtdiachikh.getText()
-                            .toString()
-                            .trim();
+                    sonha1
+                            + ", "
+                            + spWard.getSelectedItem().toString()
+                            + ", "
+                            + spDistrict.getSelectedItem().toString()
+                            + ", "
+                            + spProvince.getSelectedItem().toString();
 
             String diachinhan =
-                    edtdiachinhan.getText()
-                            .toString()
-                            .trim();
+                    sonha2
+                            + ", "
+                            + spWard1.getSelectedItem().toString()
+                            + ", "
+                            + spDistrict1.getSelectedItem().toString()
+                            + ", "
+                            + spProvince1.getSelectedItem().toString();
 
 
             // CHECK EMPTY
 
 
-            if(hoten.isEmpty()
+            if (hoten.isEmpty()
                     || sdt.isEmpty()
                     || ngaylay.isEmpty()
+                    || sonha1.isEmpty()
+                    || sonha2.isEmpty()
                     || edtSoNgay.getText()
                     .toString()
-                    .isEmpty()){
+                    .isEmpty()) {
 
 
                 show_notification.show_noti(
@@ -475,16 +507,6 @@ public class CustomerInfo extends AppCompatActivity {
                         CustomerInfo.this,
                         "messing"
                 );
-
-                Toast.makeText(
-
-                        this,
-
-                        "Nhập đầy đủ thông tin",
-
-                        Toast.LENGTH_SHORT
-
-                ).show();
 
                 return;
 
@@ -498,7 +520,7 @@ public class CustomerInfo extends AppCompatActivity {
                     radioThanhToan
                             .getCheckedRadioButtonId();
 
-            if(selectedId == -1){
+            if (selectedId == -1) {
 
                 Toast.makeText(
 
@@ -525,7 +547,6 @@ public class CustomerInfo extends AppCompatActivity {
 
 
             // GỬI API
-
 
 
             ApiService.order(
@@ -562,7 +583,7 @@ public class CustomerInfo extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                            runOnUiThread(()->
+                            runOnUiThread(() ->
                                     Toast.makeText(CustomerInfo.this,
                                             "Khong the ket noi server",
                                             Toast.LENGTH_SHORT).show());
@@ -573,7 +594,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                             String result =
                                     response.body().string();
-                            runOnUiThread(()->{
+                            runOnUiThread(() -> {
                                 try {
 
                                     JSONObject object =
@@ -582,11 +603,10 @@ public class CustomerInfo extends AppCompatActivity {
                                     boolean success =
                                             object.getBoolean("success");
 
-                                    if(success){
+                                    if (success) {
 
                                         String madon =
                                                 object.getString("madon");
-
 
 
                                         show_notification.show_noti(
@@ -610,8 +630,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                                         finish();
 
-                                    }
-                                    else{
+                                    } else {
 
 
                                         show_notification.show_noti(
@@ -633,8 +652,7 @@ public class CustomerInfo extends AppCompatActivity {
 
                                     }
 
-                                }
-                                catch (Exception e){
+                                } catch (Exception e) {
 
                                     e.printStackTrace();
 
@@ -658,6 +676,188 @@ public class CustomerInfo extends AppCompatActivity {
         });
 
     }
+
+
+    private String get_tinh_json(String ten_file) {
+        String json = null;
+
+        try {
+
+            InputStream is = getAssets().open(ten_file);
+
+            int size = is.available();
+
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+    private void get_tinh(Spinner spinnerProvince,
+                          Spinner spinnerDistrict,
+                          Spinner spinnerWard) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(get_tinh_json("tinh_tp.json"));
+
+            Iterator<String> keys = jsonObject.keys();
+            ArrayList<String> list_tinh_name = new ArrayList<>();
+            ArrayList<String> list_tinh_code = new ArrayList<>();
+
+
+            while (keys.hasNext()) {
+
+                String key = keys.next();
+
+                JSONObject tinh = jsonObject.getJSONObject(key);
+
+                String name = tinh.getString("name");
+                String code = tinh.getString("code");
+                list_tinh_name.add(name);
+                list_tinh_code.add(code);
+            }
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<>(this,
+                            android.R.layout.simple_spinner_dropdown_item,
+                            list_tinh_name);
+
+            spinnerProvince.setAdapter(adapter);
+
+            spinnerProvince.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    province = list_tinh_name.get(i);
+                   get_huyen(list_tinh_code.get(i), spinnerDistrict, spinnerWard);
+
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void get_huyen(String tinh, Spinner spinnerDistrict,
+                             Spinner spinnerWard) {
+
+
+        try {
+            JSONObject jsonObject = new JSONObject(get_tinh_json("quan_huyen.json"));
+            Iterator<String> keys = jsonObject.keys();
+            ArrayList<String> list_huyen_name = new ArrayList<>();
+
+            ArrayList<String> list_huyen_code = new ArrayList<>();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                JSONObject huyen = jsonObject.getJSONObject(key);
+                String parent_code = huyen.getString("parent_code");
+
+                if (parent_code.equals(tinh)
+                ) {
+                    String name = huyen.getString("name");
+                    String code = huyen.getString("code");
+                    list_huyen_name.add(name);
+                    list_huyen_code.add(code);
+
+                }
+
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    list_huyen_name
+            );
+            spinnerDistrict.setAdapter(adapter);
+
+            spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    district = list_huyen_name.get(i);
+                   get_xa(list_huyen_code.get(i), spinnerWard);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void get_xa(String huyen,
+                          Spinner spinnerWard) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(get_tinh_json("xa_phuong.json"));
+
+            Iterator<String> keys = jsonObject.keys();
+            ArrayList<String> list_xa = new ArrayList<>();
+
+            while (keys.hasNext()) {
+                String key = keys.next();
+                JSONObject xa = jsonObject.getJSONObject(key);
+                String parent_code = xa.getString("parent_code");
+                if (parent_code.equals(huyen)) {
+                    String name = xa.getString("name");
+                    list_xa.add(name);
+                }
+            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    list_xa
+            );
+
+            spinnerWard.setAdapter(adapter);
+            spinnerWard.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                    ward = list_xa.get(i);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 
 
 

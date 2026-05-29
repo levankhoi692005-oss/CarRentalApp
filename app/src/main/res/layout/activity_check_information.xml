@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F1F5F9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/anhnen5"
+        android:padding="18dp">
+
+        <!-- Header -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+
+            android:fitsSystemWindows="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="46dp"
+                android:layout_height="46dp"
+                android:background="@drawable/bogoc"
+                android:padding="10dp"
+                android:src="@drawable/leave"
+                 />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="14dp"
+                android:text="Thông tin cá nhân"
+                android:textColor="#0F172A"
+                android:gravity="center"
+                android:background="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Card -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#EBE0E0"
+                android:layout_marginBottom="30dp"
+                android:padding="15dp">
+
+                <!-- Avatar -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="Thông tin cá nhân"
+                        android:textColor="#111827"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Thông tin cá nhân chi tiết"
+                        android:textColor="#6B7280"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!-- Info -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="👤 Họ tên : Nguyễn Văn A"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="⚧ Giới tính : Nam"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtBirthday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="🎂 Ngày sinh : 01/01/2000"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="📞 Số điện thoại : 0123456789"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="✉ Email : example@gmail.com"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="🪪 CCCD : 001122334455"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtLicenseNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="🚘 GPLX : B2123123"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtLicenseClass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="📄 Hạng GPLX : B2"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtLicenseExpiry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="📅 Hết hạn GPLX : 01/01/2030"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/txtAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#F8FAFC"
+                        android:padding="16dp"
+                        android:text="📍 Địa chỉ : Hà Nội"
+                        android:textColor="#1E293B"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+</ScrollView>
+

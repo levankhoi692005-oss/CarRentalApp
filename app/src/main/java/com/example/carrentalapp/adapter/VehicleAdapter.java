@@ -40,15 +40,17 @@ public class VehicleAdapter
 
     Context context;
     List<Vehicle> list;
+    List<String> listxedaduyet;
+    List<String> listngaytra;
 
-    String tinhtrang="";
     String ngaytraxe="";
 
-    int dem=0;
-    public VehicleAdapter(Context context, List<Vehicle> list) {
+    public VehicleAdapter(Context context, List<Vehicle> list, List<String> listxedaduyet, List<String> listngaytra) {
 
         this.context = context;
         this.list = list;
+        this.listxedaduyet = listxedaduyet;
+        this.listngaytra = listngaytra;
 
     }
 
@@ -92,74 +94,7 @@ public class VehicleAdapter
         NumberFormat nf = NumberFormat.getInstance(new Locale("vi","VN"));
 
 
-        ApiService.getallmadon(
-                new Callback() {
-                    @Override
-                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-                        ((Activity ) context).runOnUiThread(()->
-                        {
-                            Toast.makeText(
-                                    context,
-                                    "Lỗi mạng",
-                                    Toast.LENGTH_SHORT
-                            ).show();
-                        });
-                    }
-
-                    @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-
-                        String result = response.body().string();
-
-                        ((Activity ) context).runOnUiThread(()->
-                        {
-
-                            try{
-                                JSONObject jsonObject =  new JSONObject(result);
-                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-                                boolean success = jsonObject.getBoolean("success");
-                                if(success)
-                                {
-                                    for (int i = 0; i<jsonArray.length();i++)
-                                    {
-                                       JSONObject object = jsonArray.getJSONObject(i);
-                                       if(object.getString("tinhtrang").equals("Đã duyệt"))
-                                       {
-                                           dem+=1;
-                                           ngaytraxe = object.getString("ngaytraxe");
-                                           return;
-
-                                       }
-                                    }
-
-                                }
-                                else
-                                {
-                                    ((Activity ) context).runOnUiThread(()->
-                                    {
-                                        Toast.makeText(
-                                                context,
-                                                "Lỗi mạng",
-                                                Toast.LENGTH_SHORT
-                                        ).show();
-                                    });
-                                }
-
-
-
-                            }
-                            catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-                        });
-
-
-
-                    }
-                }
-        );
 
         holder.txtTen.setText("Tên xe: " + xe.getTen());
         holder.txtBienSo.setText("Biển số: " + xe.getBienso());
@@ -171,11 +106,21 @@ public class VehicleAdapter
 
 
 
-        if(dem>0)
+
+        if(listxedaduyet.contains(xe.getBienso()))
         {
-            holder.thue.setEnabled(false);
+
+            for ( int i = 0;i<listxedaduyet.size(); i++)
+            {
+                if(listxedaduyet.get(i).equals(xe.getBienso()))
+                {
+                    ngaytraxe = listngaytra.get(i);
+                }
+            }
             holder.thue.setText("Đã được thuê");
+            holder.thue.setEnabled(false);
             holder.txthanthue.setText("Ngày trả xe: "+ngaytraxe);
+
         }
         else
         {
@@ -329,7 +274,7 @@ public class VehicleAdapter
                 txtnhienlieu,
                 txthanthue;
 
-        Button thue, xemthem;
+        TextView thue, xemthem;
 
         public XeViewHolder(
                 @NonNull View itemView

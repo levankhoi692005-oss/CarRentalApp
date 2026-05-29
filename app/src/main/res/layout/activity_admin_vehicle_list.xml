@@ -68,7 +68,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/otto"
+                    android:src="@drawable/electriccar"
                     android:scaleType="fitCenter"/>
 
                 <!-- TÊN XE -->

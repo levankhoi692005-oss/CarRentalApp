@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.example.carrentalapp.R;
 import com.example.carrentalapp.api.ApiService;
+import com.example.carrentalapp.model.show_notification;
 import com.example.carrentalapp.ui.Cart;
 import com.example.carrentalapp.ui.DetailOrder;
 
@@ -71,7 +73,8 @@ public class AdminApproval extends AppCompatActivity {
 
     xacnhantt,
     duyetdon,
-            tuchoi;
+            tuchoi,
+            sendmail;
     ImageView img1,img2;
 
     String madon="";
@@ -82,6 +85,8 @@ public class AdminApproval extends AppCompatActivity {
     String thanhtoan="";
 
 
+    LinearLayout layoutSuccess;
+    TextView notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,13 @@ public class AdminApproval extends AppCompatActivity {
         setContentView(R.layout.activity_approval_order_adapter);
 
 
+        sendmail =
+                findViewById(R.id.sendmail);
+
+        notification =
+                findViewById(R.id.notification);
+        layoutSuccess =
+                findViewById(R.id.layoutSuccess);
         btnBack =
                 findViewById(R.id.btnBack);
 
@@ -550,6 +562,63 @@ public class AdminApproval extends AppCompatActivity {
 
 
 
+        sendmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ApiService.sendmail(
+                        madon,
+                        new Callback() {
+                            @Override
+                            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                                Toast.makeText(
+                                        AdminApproval.this,
+                                        "Lỗi mạng",
+                                        Toast.LENGTH_SHORT
+                                ).show();
+
+                            }
+
+                            @Override
+                            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                String result = response.body().string();
+                                runOnUiThread(()->
+                                {
+                                    try {
+                                        JSONObject object = new JSONObject(result);
+
+                                        boolean success = object.getBoolean("success");
+                                        if(success) {
+                                            show_notification.show_noti(
+                                                    "Gửi email thành công",
+                                                    layoutSuccess,
+                                                    notification,
+                                                    AdminApproval.this,
+                                                    "success"
+                                            );
+
+                                        }
+                                        else {
+                                            show_notification.show_noti(
+                                                    "Gửi email thất bại",
+                                                    layoutSuccess,
+                                                    notification,
+                                                    AdminApproval.this,
+                                                    "error"
+                                            );
+
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                });
+
+                            }
+                        }
+                );
+            }
+        });
 
         tuchoi.setOnClickListener(new View.OnClickListener() {
             @Override

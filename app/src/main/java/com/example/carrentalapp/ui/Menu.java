@@ -25,7 +25,7 @@ public class Menu extends AppCompatActivity {
             quatang,dangxuat;
     ImageView home,cart,menu,back;
 
-    LinearLayout layoutchat;
+    LinearLayout layoutchat, capnhapthongtin;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,9 @@ public class Menu extends AppCompatActivity {
         cart = findViewById(R.id.btnCart1);
         menu = findViewById(R.id.btnMenu1);
         back = findViewById(R.id.img6);
+
+        capnhapthongtin = findViewById(R.id.capnhapthongtin);
+
         layoutchat =
                 findViewById(R.id.layoutchat);
 
@@ -125,6 +128,46 @@ public class Menu extends AppCompatActivity {
             );
 
         });
+
+        capnhapthongtin.setOnClickListener(v -> {
+
+            startActivity(
+                    new Intent(
+                            this,
+                            UpdateProfile.class
+                    )
+            );
+
+        });
+
+        kiemtra.setOnClickListener(v -> {
+
+            startActivity(
+                    new Intent(
+                            this,
+                            CheckInformation.class
+                    )
+            );
+
+
+
+        });
+
+
+        chinhsach.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Menu.this,data_privacy.class));
+            }
+        });
+
+        quatang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Menu.this,gift_user.class));
+            }
+        });
+
 
 
 

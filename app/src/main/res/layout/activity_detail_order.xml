@@ -4,10 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0ECEC"
+    android:background="#DBCDCD"
     tools:context=".ui.DetailOrder">
 
     <LinearLayout
@@ -15,29 +14,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="40dp"
         android:padding="16dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
+        android:paddingTop="35dp"
         android:fitsSystemWindows="true"
-        tools:ignore="MissingConstraints">
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- HEADER -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:fitsSystemWindows="true"
+            android:gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/btnBack"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:background="@drawable/bg_circle"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:padding="10dp"
+                android:background="@drawable/bg_circle"
                 android:src="@drawable/leave" />
 
             <TextView
@@ -47,98 +47,106 @@
                 android:layout_weight="1"
                 android:text="Thông tin đơn MD01"
                 android:textAlignment="center"
-                android:textColor="#111"
-                android:textSize="28sp"
+                android:textColor="#111827"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
-
         </LinearLayout>
+
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:padding="1dp"
-            tools:ignore="MissingConstraints">
-
+            android:layout_marginTop="18dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
+                <!-- CARD CÔNG TY -->
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp"
-                    android:background="@drawable/thongtin_circle">
-<!--                Ten cy, dia chi cong ty, email lien he cua cty -->
+                    android:padding="18dp"
+                    android:layout_marginBottom="18dp"
+                    android:background="@drawable/bg_detail_order">
 
                     <TextView
                         android:id="@+id/txt1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="12dp"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="#4CC81E"
+                        android:background="#2563EB"
                         android:text="Thông tin công ty" />
 
                     <TextView
                         android:id="@+id/txttency"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         android:gravity="center"
+                        android:textColor="#111827"
+                        android:layout_marginTop="18dp"
                         android:text=" Công ty CP thuê xe MMT01" />
 
                     <TextView
                         android:id="@+id/txtdiachi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#4B5563"
+                        android:layout_marginTop="12dp"
                         android:text="Địa chỉ: Số 29,xã Hoài đức, TP Hà nội" />
-
 
                     <TextView
                         android:id="@+id/txtemail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#4B5563"
+                        android:layout_marginTop="8dp"
                         android:text="Email: ctymmt01@gmail.com" />
 
                     <TextView
                         android:id="@+id/txtwebsite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#4B5563"
+                        android:layout_marginTop="8dp"
                         android:text="Website: https://ctymmt01.com" />
 
                 </LinearLayout>
 
 
+                <!-- CARD CHI TIẾT -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="5dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/thongtin_circle">
+                    android:padding="18dp"
+                    android:background="@drawable/bg_detail_order">
 
                     <TextView
                         android:id="@+id/txt2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="12dp"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:background="#4CC81E"
+                        android:background="#2563EB"
                         android:text="Chi tiết đơn hàng" />
 
                     <TextView
@@ -147,59 +155,69 @@
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="10dp"
+                        android:textColor="#111827"
+                        android:layout_marginTop="18dp"
                         android:text="Mã đơn: MD11" />
 
                     <TextView
                         android:id="@+id/txtkhach"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:gravity="center"
-                        android:layout_marginBottom="10dp"
+                        android:textColor="#2563EB"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="12dp"
                         android:text="Thông tin khách hàng" />
 
                     <TextView
                         android:id="@+id/txttenkh"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
                         android:text="Họ và tên: Lê văn khởi" />
-
 
                     <TextView
                         android:id="@+id/txtsdtkh"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Số điện thoại: 09883283" />
 
                     <TextView
                         android:id="@+id/txtdiachikh"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Địa chỉ: nhà 12, xã ABC , Tỉnh Hưng yên" />
 
                     <TextView
                         android:id="@+id/txtdon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="19sp"
                         android:textStyle="bold"
                         android:gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:textColor="#2563EB"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginBottom="12dp"
                         android:text="Thông tin đơn hàng" />
+
+                    <!-- CÁC TEXTVIEW GIỮ NGUYÊN -->
 
                     <TextView
                         android:id="@+id/tenxe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
+                        android:textColor="#111827"
                         android:gravity="center"
                         android:text="Maybach s200" />
 
@@ -207,136 +225,167 @@
                         android:id="@+id/bienso"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Biển số: 36G1-000000" />
+
+                    <!-- COPY STYLE NÀY CHO TOÀN BỘ TEXTVIEW -->
+
                     <TextView
                         android:id="@+id/namsx"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Năm sản xuất: 2001" />
 
                     <TextView
                         android:id="@+id/mauxe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Màu: Đen" />
-
 
                     <TextView
                         android:id="@+id/congxuat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Công xuất: 420KW" />
-
 
                     <TextView
                         android:id="@+id/soghe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Số ghế: 4" />
 
                     <TextView
                         android:id="@+id/nhienlieu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Nhiên liệu: Xăng" />
 
                     <TextView
                         android:id="@+id/ngaydangkiem"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Đăng kiểm đến: 2027" />
-
 
                     <TextView
                         android:id="@+id/hopso"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Hộp số: Tự động" />
+
                     <TextView
                         android:id="@+id/gia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#DC2626"
+                        android:layout_marginTop="12dp"
                         android:text="Giá: 1000000/ngày" />
 
                     <TextView
                         android:id="@+id/ngaydangky"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:layout_marginTop="10dp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="12dp"
                         android:text="Ngày đăng ký: 2026-08-08" />
 
                     <TextView
                         android:id="@+id/ngaylay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Ngày Lấy: 2026-08-08" />
 
                     <TextView
                         android:id="@+id/songaythue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Số ngày thuê: 3 ngày" />
 
                     <TextView
                         android:id="@+id/diachilay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Địa chỉ nhận: nhà 12, xã ABC , Tỉnh Hưng yên" />
-
 
                     <TextView
                         android:id="@+id/nguoigiao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Người giao xe: Phùng Văn Dương" />
 
                     <TextView
                         android:id="@+id/songuoigiao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
                         android:text="Số điện thoại:097861523" />
 
                     <TextView
                         android:id="@+id/txtghichu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:text="Ghi chú: " />
-
+                        android:textSize="16sp"
+                        android:textColor="#374151"
+                        android:layout_marginTop="8dp"
+                        android:text="Ghi chú:" />
 
                     <TextView
                         android:id="@+id/tongtien"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:layout_marginTop="10dp"
-                        android:textColor="#FA0000"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#DC2626"
                         android:text="Tổng tiền: 90000 VND" />
-
-
 
                     <TextView
                         android:id="@+id/loaithanhtoan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:layout_marginTop="5dp"
-                        android:textColor="#FA0000"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#2563EB"
                         android:text="Phương thức: chuyển khoản" />
 
                     <TextView
@@ -344,34 +393,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="17sp"
-                        android:layout_marginTop="5dp"
-                        android:textColor="#FA0000"
+                        android:textStyle="bold"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#F97316"
                         android:text="Tình trạng: Chưa thanh toán" />
 
                     <TextView
                         android:id="@+id/thanhtoan"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:textSize="22sp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="40dp"
+                        android:layout_width="180dp"
+                        android:layout_height="55dp"
+                        android:textSize="20sp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="20dp"
                         android:textColor="#FFFFFF"
                         android:gravity="center"
                         android:layout_gravity="center_horizontal"
-                        android:background="#6CD51A"
+                        android:background="#2563EB"
                         android:textStyle="bold"
                         android:text="Thanh toán" />
 
-
-
                 </LinearLayout>
-
 
             </LinearLayout>
 
         </ScrollView>
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

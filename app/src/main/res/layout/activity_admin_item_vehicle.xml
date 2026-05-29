@@ -68,7 +68,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/otto"
+                    android:src="@drawable/electriccar"
                     android:scaleType="fitCenter"/>
 
                 <!-- TÊN XE -->
@@ -136,7 +136,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/bienso"
+                    android:src="@drawable/licenseplate"
                     android:scaleType="fitCenter"/>
 
                 <TextView
@@ -170,7 +170,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/chair"
+                    android:src="@drawable/carseat"
                     android:scaleType="fitCenter"/>
             <TextView
                 android:id="@+id/txtSoGhe"
@@ -203,7 +203,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/gas"
+                    android:src="@drawable/gasstation"
                     android:scaleType="fitCenter"/>
 
             <TextView
@@ -233,7 +233,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/hoso"
+                    android:src="@drawable/settings"
                     android:scaleType="fitCenter"/>
             <TextView
                 android:id="@+id/txtHopSo"
@@ -256,21 +256,32 @@
                 android:gravity="end"
                 android:orientation="horizontal">
 
-                <Button
+                <TextView
                     android:id="@+id/btnXemThem"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="#2196F3"
                     android:text="Xem thêm"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/bg_button_xemthem"
                     android:textColor="#FFFFFF"/>
 
-                <Button
+                <TextView
                     android:id="@+id/btnThue"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:backgroundTint="#4CAF50"
-                    android:text="Thuê"
+
+                    android:text="          Thuê          "
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:gravity="center"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/bg_button_green"
                     android:textColor="#FFFFFF"/>
             </LinearLayout>
             <TextView

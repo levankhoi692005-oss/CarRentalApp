@@ -10,13 +10,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F4F7FE">
-
-
-
-
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -212,25 +205,111 @@
                     android:id="@+id/edtSDT"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/edittext_bg"
                     android:hint="Số điện thoại"
                     android:inputType="phone"
-                    android:padding="14dp"
-                    android:background="@drawable/edittext_bg"
-                    android:layout_marginTop="12dp"/>
-                <EditText
+                    android:padding="14dp" />
+
+                <LinearLayout
                     android:id="@+id/edtdiachikh"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:hint="Địa chỉ khách hàng"
-                    android:padding="14dp"
-                    android:background="@drawable/edittext_bg"/>
-                <EditText
+                    android:layout_height="140dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:background="@drawable/edittext_bg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="19sp"
+                        android:hint="   Địa chỉ khách hàng"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+                        <Spinner
+                            android:id="@+id/spinnerProvince"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+                        <Spinner
+                            android:id="@+id/spinnerDistrict"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+                        <Spinner
+                            android:id="@+id/spinnerWard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+
+                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/txtsonha1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="19sp"
+                        android:hint=" Số nhà, xóm , thôn"/>
+
+                </LinearLayout>
+                <LinearLayout
                     android:id="@+id/edtdiachinhan"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:hint="Địa chỉ nhận xe"
-                    android:padding="14dp"
-                    android:background="@drawable/edittext_bg"/>
+                    android:layout_height="140dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="19sp"
+                        android:hint="   Địa chỉ nhận"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        >
+                        <Spinner
+                            android:id="@+id/spinnerProvince1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+                        <Spinner
+                            android:id="@+id/spinnerDistrict1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+                        <Spinner
+                            android:id="@+id/spinnerWard1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            />
+
+
+                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/txtsonha2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="19sp"
+                        android:hint=" Số nhà, xóm , thôn"/>
+
+                </LinearLayout>
+
 
                 <EditText
                     android:id="@+id/edtNgayLay"
@@ -340,6 +419,8 @@
                     android:textSize="18sp"
                     android:layout_marginTop="22dp"
                     android:backgroundTint="#1565C0"/>
+
+
 
             </LinearLayout>
 

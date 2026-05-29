@@ -44,7 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtTenXe, txtGia, txtBienSo, txtNgayDangKy, txtNgayLay,
-                txtSoNgay, txtThanhTien, txtTinhTrang, txtThanhToan;
+                txtSoNgay, txtThanhTien, txtTinhTrang, txtThanhToan, txtmadon;
 
         Button btnXemThem, btnHuy;
         ImageView imgXe;
@@ -53,6 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             super(itemView);
 
             imgXe = itemView.findViewById(R.id.imgXe);
+            txtmadon = itemView.findViewById(R.id.txtmadon);
 
             txtTenXe = itemView.findViewById(R.id.txtTenXe);
             txtGia = itemView.findViewById(R.id.txtGia);
@@ -120,17 +121,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
 
 
         // 👉 hiển thị
+        h.txtmadon.setText("Mã đơn: "+ o.getMadon());
         h.txtTenXe.setText("Xe: " + o.getTenxe()); // nếu chưa có tên xe thì dùng biển
         h.txtGia.setText(nf.format(o.getDongia()) + "đ/ngày");
 
         h.txtBienSo.setText("Biển số: " + o.getBienso());
 
-        h.txtNgayDangKy.setText("📅 ĐK: " + o.getNgaydat());
-        h.txtNgayLay.setText("🚗 Lấy: " + o.getNgaylay());
+        h.txtNgayDangKy.setText("Đăng ký: " + o.getNgaydat());
+        h.txtNgayLay.setText("Lấy : " + o.getNgaylay());
 
-        h.txtSoNgay.setText("⏱ " + o.getSongaythue() + " ngày");
+        h.txtSoNgay.setText("Thuê: " + o.getSongaythue() + " ngày");
 
-        h.txtThanhTien.setText("💰 " + nf.format(o.getThanhtien()) + "đ");
+        h.txtThanhTien.setText("Tổng: " + nf.format(o.getThanhtien()) + "VNĐ");
 
         h.txtThanhToan.setText(o.getThanhtoan());
 

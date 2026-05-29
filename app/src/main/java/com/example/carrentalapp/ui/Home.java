@@ -1,6 +1,7 @@
 package com.example.carrentalapp.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +12,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +25,9 @@ import com.example.carrentalapp.model.Vehicle;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,6 +45,9 @@ public class Home extends AppCompatActivity {
     ArrayList<Vehicle> listsearch;
     ArrayList<Vehicle> list;
 
+    List<String> listxedaduyet;
+
+    List<String> listngaytraxe;
 
     ImageView btnCart, btnMenu,btnchat;
 
@@ -71,11 +78,16 @@ public class Home extends AppCompatActivity {
         list = new ArrayList<>();
         listsearch = new ArrayList<>();
 
+        listxedaduyet = new ArrayList<>();
+        listngaytraxe = new ArrayList<>();
+
 
         adapter =
                 new VehicleAdapter(
                         this,
-                        list
+                        list,
+                        listxedaduyet,
+                        listngaytraxe
                 );
 
         recyclerVehicle.setLayoutManager(
@@ -99,6 +111,7 @@ public class Home extends AppCompatActivity {
         // ==========================
 
         loadVehicles();
+        getxedaduyet();
 
         // ==========================
         // CART
@@ -181,6 +194,69 @@ public class Home extends AppCompatActivity {
 
 
 
+    private void getxedaduyet()
+    {
+        ApiService.getallmadon(
+                new Callback() {
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                        runOnUiThread(()->
+                        {
+                            Toast.makeText(
+                                    Home.this,
+                                    "Lỗi mạng",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                        String result = response.body().string();
+
+                      runOnUiThread(()->
+                        {
+                            try{
+                                JSONObject jsonObject =  new JSONObject(result);
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                boolean success = jsonObject.getBoolean("success");
+                                if(success)
+                                {
+                                    for (int i = 0; i<jsonArray.length();i++)
+                                    {
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        if(object.getString("tinhtrang").equals("Đã duyệt")
+                                                )
+                                        {
+                                            listngaytraxe.add(object.getString("ngaytraxe"));
+                                            listxedaduyet.add(object.getString("bienso"));
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                 runOnUiThread(()->
+                                    {
+                                        Toast.makeText(
+                                                Home.this,
+                                                "Lỗi mạng",
+                                                Toast.LENGTH_SHORT
+                                        ).show();
+                                    });
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+                }
+        );
+    }
+
     private void loadVehicles(){
 
         ApiService.getVehicles(
@@ -221,6 +297,7 @@ public class Home extends AppCompatActivity {
 
                             list.clear();
                             listsearch.clear();
+                            listxedaduyet.clear();
 
                             for(int i = 0; i < array.length(); i++){
 

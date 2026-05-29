@@ -4,6 +4,8 @@ import com.example.carrentalapp.R;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -610,6 +612,82 @@ public class ApiService {
     {
         Request request = new Request.Builder()
                 .url(BASE_URL+"getmessagechat/"+user_name)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+
+    }
+
+    public static void update_profile(
+            int id,
+            String name,
+            String gender,
+            String street_address,
+            String email,
+            String phone,
+            String birthday,
+            String national_id,
+            String license_number,
+            String license_class,
+            String license_expiry,
+            Callback callback
+    ) {
+
+        JSONObject json = new JSONObject();
+
+        try {
+
+            json.put("name", name);
+            json.put("gender", gender);
+            json.put("street_address", street_address);
+            json.put("email", email);
+            json.put("phone", phone);
+            json.put("birthday", birthday);
+            json.put("national_id", national_id);
+            json.put("license_number", license_number);
+            json.put("license_class", license_class);
+            json.put("license_expiry", license_expiry);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(
+                json.toString(),
+                MediaType.parse("application/json")
+        );
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+"update_profile/"+id)
+                .put(requestBody)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+
+
+    }
+
+    public static void get_user_profile(
+            int id,
+            Callback callback
+    )
+    {
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+"get_user_profile/"+id)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
+
+    public  static void sendmail(
+            String madon,
+            Callback callback
+
+    )
+    {
+
+        Request request = new Request.Builder()
+                .url(BASE_URL+"send_email/"+madon)
                 .build();
 
         client.newCall(request).enqueue(callback);

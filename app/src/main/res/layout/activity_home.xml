@@ -90,7 +90,7 @@
             android:layout_width="26dp"
             android:layout_height="26dp"
 
-            android:src="@drawable/search1"
+            android:src="@android:drawable/ic_menu_search"
             app:tint="#666666"/>
 
     </LinearLayout>

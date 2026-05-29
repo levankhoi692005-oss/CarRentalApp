@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="15dp"
+        android:padding="18dp">
+
+        <!-- Header -->
+        <RelativeLayout
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/btnClose"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:background="@drawable/leave"
+                android:padding="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/btnClose"
+                android:text="Chính sách bảo vệ dữ liệu"
+                android:textColor="#111111"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- Banner -->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="170dp"
+            android:layout_marginTop="18dp"
+            android:background="#DDF5E8"
+            android:scaleType="centerCrop"
+            android:src="@drawable/datapriveat" />
+
+        <!-- Law -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Căn cứ Luật Bảo vệ dữ liệu cá nhân số 91/2025/QH15"
+            android:textColor="#7A7A7A"
+            android:textSize="13sp" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:lineSpacingExtra="4dp"
+            android:text="Để tiếp tục sử dụng dịch vụ, Quý Khách hàng vui lòng xác nhận đồng ý cho Mioto thu thập và xử lý dữ liệu cá nhân theo các mục đích dưới đây:"
+            android:textColor="#111111"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <!-- Checkbox group -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Cung cấp và vận hành dịch vụ dành cho Khách hàng."
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Thực hiện các nghĩa vụ pháp lý và quy định hiện hành của Mioto."
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Gửi thông tin ưu đãi, quảng cáo và các chương trình phù hợp với nhu cầu của Khách hàng."
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="14dp"
+            android:background="#E5E5E5" />
+
+        <!-- GPLX -->
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:lineSpacingExtra="3dp"
+            android:checked="true"
+            android:text="Tôi đồng ý cho Mioto thu thập và xử lý dữ liệu Giấy phép lái xe nhằm xác minh danh tính, kiểm tra điều kiện thuê xe và phục vụ theo đúng quy định pháp luật."
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <!-- Description -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:lineSpacingExtra="4dp"
+            android:text="Mioto cam kết bảo mật và sử dụng dữ liệu cá nhân của Khách hàng một cách minh bạch, an toàn và tuân thủ đúng quy định pháp luật."
+            android:textColor="#555555"
+            android:textSize="15sp" />
+
+        <!-- Link -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:lineSpacingExtra="4dp"
+            android:text="Xem chi tiết tại Chính sách bảo vệ dữ liệu cá nhân của Mioto."
+            android:textColor="#19A15F"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- Button -->
+
+    </LinearLayout>
+
+</ScrollView>

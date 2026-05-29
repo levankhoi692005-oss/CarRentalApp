@@ -16,6 +16,18 @@
         android:theme="@style/Theme.CarRentalApp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.gift_user"
+            android:exported="false" />
+        <activity
+            android:name=".ui.data_privacy"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CheckInformation"
+            android:exported="false" />
+        <activity
+            android:name=".ui.UpdateProfile"
+            android:exported="false" />
+        <activity
             android:name=".ui.ChatAI"
             android:exported="false" />
         <activity
